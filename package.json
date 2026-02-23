@@ -1,0 +1,22 @@
+{
+  "name": "joga-kundalini",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "prettier --write \"**/*.{ts,tsx,md,mdx,json}\"",
+    "validate-content": "turbo validate-content",
+    "generate-search": "turbo generate-search"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "turbo": "^2.1.0",
+    "typescript": "^5.5.0"
+  },
+  "packageManager": "pnpm@9.6.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

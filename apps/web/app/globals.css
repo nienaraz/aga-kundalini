@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: theme('colors.warm.50');
+    --color-text: theme('colors.earth.900');
+    --color-muted: theme('colors.earth.500');
+    --color-accent: theme('colors.sage.600');
+    --color-accent-light: theme('colors.sage.100');
+    --color-border: theme('colors.warm.200');
+    --color-card: theme('colors.white');
+    --color-card-hover: theme('colors.warm.100');
+
+    --radius: 0.75rem;
+  }
+
+  html {
+    @apply antialiased scroll-smooth;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  body {
+    @apply bg-warm-50 text-earth-900 font-sans leading-relaxed;
+  }
+
+  /* Tryb spokojny – większa czcionka, więcej przestrzeni */
+  body.calm-mode {
+    @apply text-calm-body;
+  }
+  body.calm-mode h1 { @apply text-4xl md:text-5xl; }
+  body.calm-mode h2 { @apply text-3xl md:text-4xl; }
+  body.calm-mode h3 { @apply text-2xl md:text-3xl; }
+  body.calm-mode .content-container { @apply max-w-3xl px-8; }
+
+  /* Focus widoczny dla klawiatury */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-sage-500 rounded-sm;
+  }
+
+  /* Selekcja */
+  ::selection {
+    @apply bg-sage-200 text-earth-900;
+  }
+}
+
+@layer components {
+  .content-container {
+    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-spacing {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  /* MDX prose */
+  .prose-custom {
+    @apply leading-relaxed;
+  }
+  .prose-custom h2 {
+    @apply font-serif text-2xl md:text-3xl text-earth-800 mt-12 mb-4 scroll-mt-20;
+  }
+  .prose-custom h3 {
+    @apply font-serif text-xl md:text-2xl text-earth-700 mt-8 mb-3 scroll-mt-20;
+  }
+  .prose-custom p {
+    @apply mb-6 text-earth-800 leading-relaxed;
+  }
+  .prose-custom ul {
+    @apply mb-6 pl-6 space-y-2;
+  }
+  .prose-custom li {
+    @apply text-earth-700;
+  }
+  .prose-custom blockquote {
+    @apply border-l-4 border-sage-300 pl-4 italic text-earth-600 my-6;
+  }
+  .prose-custom strong {
+    @apply text-earth-900 font-semibold;
+  }
+  .prose-custom a {
+    @apply text-sage-600 underline underline-offset-2 hover:text-sage-700 transition-colors;
+  }
+
+  /* Karty – spokojny hover */
+  .card-calm {
+    @apply rounded-xl border border-warm-200 bg-white p-6
+           transition-all duration-300 ease-out
+           hover:shadow-md hover:border-sage-200;
+  }
+}

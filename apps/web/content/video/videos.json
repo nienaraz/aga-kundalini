@@ -1,0 +1,41 @@
+[
+  {
+    "title": "60 sekund na reset układu nerwowego",
+    "slug": "60-sekund-reset",
+    "description": "Krótka praktyka oddechowa na szybką regulację.",
+    "tags": ["oddech", "reset", "układ nerwowy"],
+    "publishedAt": "2024-12-01",
+    "platform": "youtube",
+    "youtubeId": "dQw4w9WgXcQ",
+    "durationSec": 62,
+    "topic": "reset",
+    "featured": true,
+    "draft": false
+  },
+  {
+    "title": "Jak rozpoznać przebodźcowanie?",
+    "slug": "rozpoznaj-przebodzcowanie",
+    "description": "Sygnały ciała, które mówią o nadmiernej aktywacji.",
+    "tags": ["układ nerwowy", "przebodźcowanie", "sygnały ciała"],
+    "publishedAt": "2024-11-15",
+    "platform": "youtube",
+    "youtubeId": "dQw4w9WgXcQ",
+    "durationSec": 58,
+    "topic": "edukacja",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "title": "3 minuty uziemienia – praktyka na stojąco",
+    "slug": "3-minuty-uziemienia",
+    "description": "Prosta technika uziemienia, którą możesz zrobić gdziekolwiek.",
+    "tags": ["uziemienie", "praktyka", "ciało"],
+    "publishedAt": "2024-11-01",
+    "platform": "youtube",
+    "youtubeId": "dQw4w9WgXcQ",
+    "durationSec": 185,
+    "topic": "praktyka",
+    "featured": true,
+    "draft": false
+  }
+]
