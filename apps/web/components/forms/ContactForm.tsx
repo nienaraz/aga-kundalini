@@ -12,152 +12,75 @@ export function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
     setErrorMessage('');
-
     const form = e.currentTarget;
     const data = new FormData(form);
-
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: data.get('name'),
-          email: data.get('email'),
-          message: data.get('message'),
-        }),
+        body: JSON.stringify({ name: data.get('name'), email: data.get('email'), message: data.get('message') }),
       });
-
-      if (!res.ok) {
-        throw new Error('Nie udalo sie wyslac wiadomosci.');
-      }
-
+      if (!res.ok) throw new Error('Nie udało się wysłać wiadomości.');
       setStatus('success');
       form.reset();
     } catch (err) {
       setStatus('error');
-      setErrorMessage(
-        err instanceof Error ? err.message : 'Wystapil blad. Sprobuj ponownie.'
-      );
+      setErrorMessage(err instanceof Error ? err.message : 'Wystąpił błąd. Spróbuj ponownie.');
     }
   }
 
   if (status === 'success') {
     return (
-      <div className="rounded-xl bg-sage-50 border border-sage-200 p-6 text-center">
-        <p className="text-sage-800 font-medium mb-1">Dziekuje za wiadomosc!</p>
-        <p className="text-sm text-sage-600">Odpowiem najszybciej jak to mozliwe.</p>
+      <div className="rounded-3xl bg-sage-50/60 border border-sage-200/40 p-7 text-center">
+        <p className="text-sage-800 font-medium mb-1">Dziękuję za wiadomość!</p>
+        <p className="text-body-sm text-sage-600">Odpowiem najszybciej jak to możliwe.</p>
         <button
           type="button"
           onClick={() => setStatus('idle')}
-          className="mt-4 text-sm text-sage-600 underline underline-offset-2 hover:text-sage-700"
+          className="mt-4 text-body-sm text-sage-600 underline underline-offset-2 hover:text-sage-700"
         >
-          Wyslij kolejna wiadomosc
+          Wyślij kolejną wiadomość
         </button>
       </div>
     );
   }
 
+  const inputClasses = "w-full px-5 py-3 rounded-2xl border border-warm-200/60 text-earth-900 text-body-sm placeholder-earth-400 bg-white focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-transparent transition-colors";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Name */}
       <div>
-        <label htmlFor="contact-name" className="block text-sm font-medium text-earth-700 mb-1.5">
-          Imie
-        </label>
-        <input
-          id="contact-name"
-          name="name"
-          type="text"
-          required
-          autoComplete="name"
-          className="
-            w-full px-4 py-2.5 rounded-lg border border-warm-200
-            text-earth-800 text-sm placeholder-earth-400
-            bg-white focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-transparent
-            transition-colors
-          "
-          placeholder="Twoje imie"
-        />
+        <label htmlFor="contact-name" className="block text-body-sm font-medium text-earth-700 mb-2">Imię</label>
+        <input id="contact-name" name="name" type="text" required autoComplete="name" className={inputClasses} placeholder="Twoje imię" />
       </div>
 
-      {/* Email */}
       <div>
-        <label htmlFor="contact-email" className="block text-sm font-medium text-earth-700 mb-1.5">
-          Email
-        </label>
-        <input
-          id="contact-email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-          className="
-            w-full px-4 py-2.5 rounded-lg border border-warm-200
-            text-earth-800 text-sm placeholder-earth-400
-            bg-white focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-transparent
-            transition-colors
-          "
-          placeholder="twoj@email.pl"
-        />
+        <label htmlFor="contact-email" className="block text-body-sm font-medium text-earth-700 mb-2">Email</label>
+        <input id="contact-email" name="email" type="email" required autoComplete="email" className={inputClasses} placeholder="twoj@email.pl" />
       </div>
 
-      {/* Message */}
       <div>
-        <label htmlFor="contact-message" className="block text-sm font-medium text-earth-700 mb-1.5">
-          Wiadomosc
-        </label>
-        <textarea
-          id="contact-message"
-          name="message"
-          required
-          rows={5}
-          className="
-            w-full px-4 py-2.5 rounded-lg border border-warm-200
-            text-earth-800 text-sm placeholder-earth-400
-            bg-white focus:outline-none focus:ring-2 focus:ring-sage-500 focus:border-transparent
-            transition-colors resize-y
-          "
-          placeholder="Napisz do mnie..."
-        />
+        <label htmlFor="contact-message" className="block text-body-sm font-medium text-earth-700 mb-2">Wiadomość</label>
+        <textarea id="contact-message" name="message" required rows={5} className={`${inputClasses} resize-y`} placeholder="Napisz do mnie..." />
       </div>
 
-      {/* Consent */}
-      <div className="space-y-2">
-        <label className="flex items-start gap-2.5 text-sm text-earth-600 cursor-pointer">
-          <input
-            type="checkbox"
-            name="consent-privacy"
-            required
-            className="mt-0.5 rounded border-earth-300 text-sage-600 focus:ring-sage-500"
-          />
-          <span>
-            Akceptuje{' '}
-            <a href="/legal/privacy" className="text-sage-600 underline underline-offset-2 hover:text-sage-700">
-              polityke prywatnosci
-            </a>
-            . Moje dane beda uzyte wylacznie do odpowiedzi na wiadomosc.
-          </span>
-        </label>
-      </div>
+      <label className="flex items-start gap-3 text-body-sm text-earth-600 cursor-pointer">
+        <input type="checkbox" name="consent-privacy" required className="mt-0.5 rounded border-earth-300 text-sage-600 focus:ring-sage-500" />
+        <span>
+          Akceptuję{' '}
+          <a href="/legal/privacy" className="text-sage-600 underline underline-offset-2 hover:text-sage-700">politykę prywatności</a>.
+          Moje dane będą użyte wyłącznie do odpowiedzi na wiadomość.
+        </span>
+      </label>
 
-      {/* Error */}
-      {status === 'error' && (
-        <p className="text-sm text-rose-600">{errorMessage}</p>
-      )}
+      {status === 'error' && <p className="text-body-sm text-rose-600">{errorMessage}</p>}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="
-          w-full px-6 py-3 rounded-lg
-          bg-sage-600 text-white font-medium text-sm
-          hover:bg-sage-500 active:bg-sage-700
-          disabled:opacity-60 disabled:cursor-not-allowed
-          transition-colors
-        "
+        className="w-full px-6 py-3.5 rounded-2xl bg-sage-600 text-white font-medium text-body-sm hover:bg-sage-700 active:bg-sage-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors shadow-soft"
       >
-        {status === 'submitting' ? 'Wysylanie...' : 'Wyslij wiadomosc'}
+        {status === 'submitting' ? 'Wysyłanie...' : 'Wyślij wiadomość'}
       </button>
     </form>
   );

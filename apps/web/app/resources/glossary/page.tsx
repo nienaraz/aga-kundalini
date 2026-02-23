@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { getAllGlossaryTerms } from '@/lib/content';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Slownik',
   description: 'Slownik pojec zwiazanych z ukladem nerwowym, regulacja i yoga kundalini.',

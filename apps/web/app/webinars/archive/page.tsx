@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { getArchivedWebinars } from '@/lib/webinar';
 import WebinarCard from '@/components/webinar/WebinarCard';
 
+export const dynamic = 'force-dynamic';
+
 /* ------------------------------------------------------------------ */
 /*  /webinars/archive – Archived (ended) webinars                       */
 /* ------------------------------------------------------------------ */

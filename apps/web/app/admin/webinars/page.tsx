@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth/options';
 import { getAllWebinars, getSignupCount } from '@/lib/webinar';
 import AdminWebinarList from './AdminWebinarList';
 
+export const dynamic = 'force-dynamic';
+
 /* ------------------------------------------------------------------ */
 /*  /admin/webinars – Admin panel for webinar management                */
 /*  Server component with session check                                  */

@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { quizQuestions } from '@/lib/quiz/config';
-import { calculateScores, determineState } from '@/lib/quiz/scoring';
+import { calculateStateScores, determineResult } from '@/lib/quiz/scoring';
 import { saveQuizResult } from '@/lib/quiz/storage';
 import type { QuizAnswers } from '@/lib/quiz/scoring';
 
@@ -47,13 +47,12 @@ export default function QuizPage() {
     if (!allAnswered || isSubmitting) return;
     setIsSubmitting(true);
 
-    const scores = calculateScores(answers);
-    const state = determineState(scores);
+    const result = determineResult(answers);
 
     saveQuizResult({
       answers,
-      scores,
-      stateId: state.id,
+      scores: calculateStateScores(answers),
+      stateId: result.primary.state.id,
       completedAt: new Date().toISOString(),
     });
 
@@ -70,15 +69,18 @@ export default function QuizPage() {
       <title>Samosprawdzenie | Aga &middot; Joga Kundalini</title>
 
       <div className="section-spacing">
-        <div className="content-container max-w-2xl">
+        <div className="content-container-xs">
           {/* ---------------------------------------------------------------- */}
           {/* Header                                                            */}
           {/* ---------------------------------------------------------------- */}
-          <header className="mb-8">
-            <h1 className="font-serif text-3xl md:text-4xl text-earth-800 mb-3">
+          <header className="mb-10">
+            <span className="label-editorial-pill mb-5 inline-flex">
+              Narzędzie
+            </span>
+            <h1 className="font-serif text-display-sm text-earth-950 mb-4">
               Samosprawdzenie
             </h1>
-            <p className="text-earth-500 text-lg leading-relaxed">
+            <p className="text-body-lg text-earth-600 leading-relaxed max-w-lg">
               Sprawdź, jak teraz funkcjonuje Twój układ nerwowy. To zajmie
               około 2 minut.
             </p>
@@ -87,29 +89,26 @@ export default function QuizPage() {
           {/* ---------------------------------------------------------------- */}
           {/* Disclaimer                                                        */}
           {/* ---------------------------------------------------------------- */}
-          <div
-            className="mb-8 rounded-xl border border-warm-300 bg-warm-100/60 px-5 py-4"
-            role="alert"
-          >
-            <p className="text-sm text-earth-700 leading-relaxed">
-              <strong className="text-earth-800">Ważne:</strong> To narzędzie
-              samoobserwacji, nie diagnoza medyczna. Wynik nie zastępuje
-              konsultacji ze specjalistą. W przypadku poważnych objawów
-              skonsultuj się z lekarzem lub psychologiem.
+          <div className="card-warm mb-10" role="alert">
+            <p className="text-body-sm text-earth-700 leading-relaxed">
+              <strong className="text-earth-950 font-semibold">Ważne:</strong>{' '}
+              To narzędzie samoobserwacji, nie diagnoza medyczna. Wynik nie
+              zastępuje konsultacji ze specjalistą. W przypadku poważnych
+              objawów skonsultuj się z lekarzem lub psychologiem.
             </p>
           </div>
 
           {/* ---------------------------------------------------------------- */}
           {/* Progress Bar                                                      */}
           {/* ---------------------------------------------------------------- */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-earth-500">
+          <div className="mb-10">
+            <div className="flex items-center justify-between mb-2.5">
+              <span className="text-body-sm text-earth-600">
                 {answeredCount} z {totalQuestions} pytań
               </span>
-              <span className="text-sm text-earth-500">{progress}%</span>
+              <span className="text-body-sm text-earth-600">{progress}%</span>
             </div>
-            <div className="h-2 rounded-full bg-warm-200 overflow-hidden">
+            <div className="h-2.5 rounded-full bg-warm-200 overflow-hidden">
               <div
                 className="h-full rounded-full bg-sage-500 transition-all duration-500 ease-out"
                 style={{ width: `${progress}%` }}
@@ -120,14 +119,14 @@ export default function QuizPage() {
           {/* ---------------------------------------------------------------- */}
           {/* View mode toggle                                                  */}
           {/* ---------------------------------------------------------------- */}
-          <div className="mb-6 flex gap-2">
+          <div className="mb-8 flex gap-3">
             <button
               type="button"
               onClick={() => setViewMode('step')}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-2xl px-5 py-2.5 text-body-sm font-medium transition-all duration-300 ${
                 viewMode === 'step'
-                  ? 'bg-sage-600 text-white'
-                  : 'bg-warm-100 text-earth-600 hover:bg-warm-200'
+                  ? 'bg-sage-600 text-white shadow-soft'
+                  : 'bg-warm-100 text-earth-600 hover:bg-warm-200 border border-warm-200/60'
               }`}
             >
               Krok po kroku
@@ -135,10 +134,10 @@ export default function QuizPage() {
             <button
               type="button"
               onClick={() => setViewMode('all')}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-2xl px-5 py-2.5 text-body-sm font-medium transition-all duration-300 ${
                 viewMode === 'all'
-                  ? 'bg-sage-600 text-white'
-                  : 'bg-warm-100 text-earth-600 hover:bg-warm-200'
+                  ? 'bg-sage-600 text-white shadow-soft'
+                  : 'bg-warm-100 text-earth-600 hover:bg-warm-200 border border-warm-200/60'
               }`}
             >
               Wszystkie naraz
@@ -173,21 +172,21 @@ export default function QuizPage() {
           {/* ---------------------------------------------------------------- */}
           {/* Submit                                                            */}
           {/* ---------------------------------------------------------------- */}
-          <div className="mt-10 flex flex-col items-center gap-3">
+          <div className="mt-12 flex flex-col items-center gap-4">
             <button
               type="button"
               onClick={handleSubmit}
               disabled={!allAnswered || isSubmitting}
-              className={`rounded-xl px-8 py-3.5 text-base font-medium transition-all duration-300 ${
+              className={`rounded-2xl px-10 py-4 text-body-base font-medium transition-all duration-300 ${
                 allAnswered && !isSubmitting
-                  ? 'bg-sage-600 text-white hover:bg-sage-700 shadow-md hover:shadow-lg'
+                  ? 'bg-sage-600 text-white hover:bg-sage-700 shadow-soft hover:shadow-soft-lg'
                   : 'bg-warm-200 text-earth-400 cursor-not-allowed'
               }`}
             >
               {isSubmitting ? 'Obliczam...' : 'Zobacz wynik'}
             </button>
             {!allAnswered && (
-              <p className="text-sm text-earth-400">
+              <p className="text-body-sm text-earth-500">
                 Odpowiedz na wszystkie pytania, aby zobaczyć wynik
               </p>
             )}
@@ -224,15 +223,15 @@ function StepView({
 }) {
   return (
     <div className="animate-fade-in">
-      <div className="card-calm">
-        <p className="text-xs font-medium text-sage-600 mb-3 uppercase tracking-wide">
+      <div className="bento-card bg-white border border-warm-200/60 shadow-bento">
+        <span className="label-editorial mb-4 block">
           Pytanie {questionIndex + 1} z {totalQuestions}
-        </p>
-        <h2 className="font-serif text-xl text-earth-800 mb-6 leading-relaxed">
+        </span>
+        <h2 className="font-serif text-heading-base text-earth-950 mb-6 leading-relaxed">
           {question.text}
         </h2>
         {question.helpText && (
-          <p className="text-sm text-earth-400 mb-4 italic">
+          <p className="text-body-sm text-earth-500 mb-5 italic">
             {question.helpText}
           </p>
         )}
@@ -240,10 +239,10 @@ function StepView({
           {question.options.map((option) => (
             <label
               key={option.value}
-              className={`flex items-center gap-4 rounded-lg border px-4 py-3.5 cursor-pointer transition-all duration-200 ${
+              className={`flex items-center gap-4 rounded-2xl border px-5 py-4 cursor-pointer transition-all duration-300 ease-gentle ${
                 selectedValue === option.value
-                  ? 'border-sage-400 bg-sage-50 shadow-sm'
-                  : 'border-warm-200 bg-white hover:border-sage-200 hover:bg-warm-50'
+                  ? 'border-sage-400 bg-sage-50 shadow-soft'
+                  : 'border-warm-200/60 bg-white hover:border-sage-200 hover:bg-warm-50'
               }`}
             >
               <input
@@ -255,7 +254,7 @@ function StepView({
                 className="sr-only"
               />
               <span
-                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
+                className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
                   selectedValue === option.value
                     ? 'border-sage-500 bg-sage-500'
                     : 'border-earth-300'
@@ -265,7 +264,9 @@ function StepView({
                   <span className="h-2 w-2 rounded-full bg-white" />
                 )}
               </span>
-              <span className="text-earth-700">{option.label}</span>
+              <span className="text-body-base text-earth-700">
+                {option.label}
+              </span>
             </label>
           ))}
         </div>
@@ -277,9 +278,9 @@ function StepView({
           type="button"
           onClick={onPrev}
           disabled={!canGoPrev}
-          className={`rounded-lg px-5 py-2.5 text-sm font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-body-sm font-medium transition-all duration-300 ${
             canGoPrev
-              ? 'text-earth-600 hover:bg-warm-100'
+              ? 'text-earth-600 hover:bg-warm-100 hover:shadow-soft'
               : 'text-earth-300 cursor-not-allowed'
           }`}
         >
@@ -289,9 +290,9 @@ function StepView({
           type="button"
           onClick={onNext}
           disabled={!canGoNext}
-          className={`rounded-lg px-5 py-2.5 text-sm font-medium transition-colors ${
+          className={`rounded-2xl px-6 py-3 text-body-sm font-medium transition-all duration-300 ${
             canGoNext
-              ? 'bg-warm-100 text-earth-700 hover:bg-warm-200'
+              ? 'bg-warm-100 text-earth-700 hover:bg-warm-200 shadow-soft border border-warm-200/60'
               : 'text-earth-300 cursor-not-allowed'
           }`}
         >
@@ -317,26 +318,29 @@ function AllQuestionsView({
   return (
     <div className="space-y-6">
       {questions.map((question, idx) => (
-        <div key={question.id} className="card-calm">
-          <p className="text-xs font-medium text-sage-600 mb-2 uppercase tracking-wide">
+        <div
+          key={question.id}
+          className="bento-card bg-white border border-warm-200/60 shadow-bento"
+        >
+          <span className="label-editorial mb-3 block">
             {idx + 1}/{questions.length}
-          </p>
-          <h2 className="font-serif text-lg text-earth-800 mb-4 leading-relaxed">
+          </span>
+          <h2 className="font-serif text-heading-sm text-earth-950 mb-5 leading-relaxed">
             {question.text}
           </h2>
           {question.helpText && (
-            <p className="text-sm text-earth-400 mb-3 italic">
+            <p className="text-body-sm text-earth-500 mb-4 italic">
               {question.helpText}
             </p>
           )}
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {question.options.map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center gap-3 rounded-lg border px-4 py-3 cursor-pointer transition-all duration-200 ${
+                className={`flex items-center gap-4 rounded-2xl border px-5 py-3.5 cursor-pointer transition-all duration-300 ease-gentle ${
                   answers[question.id] === option.value
-                    ? 'border-sage-400 bg-sage-50 shadow-sm'
-                    : 'border-warm-200 bg-white hover:border-sage-200 hover:bg-warm-50'
+                    ? 'border-sage-400 bg-sage-50 shadow-soft'
+                    : 'border-warm-200/60 bg-white hover:border-sage-200 hover:bg-warm-50'
                 }`}
               >
                 <input
@@ -348,7 +352,7 @@ function AllQuestionsView({
                   className="sr-only"
                 />
                 <span
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors ${
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
                     answers[question.id] === option.value
                       ? 'border-sage-500 bg-sage-500'
                       : 'border-earth-300'
@@ -358,7 +362,9 @@ function AllQuestionsView({
                     <span className="h-2 w-2 rounded-full bg-white" />
                   )}
                 </span>
-                <span className="text-earth-700 text-sm">{option.label}</span>
+                <span className="text-body-sm text-earth-700">
+                  {option.label}
+                </span>
               </label>
             ))}
           </div>

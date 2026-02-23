@@ -7,9 +7,9 @@ import Link from 'next/link';
 /*  Metadata                                                           */
 /* ------------------------------------------------------------------ */
 
-const PAGE_TITLE = 'Dziennik reakcji | Aga \u00b7 Joga Kundalini';
+const PAGE_TITLE = 'Dziennik reakcji | Aga · Joga Kundalini';
 const PAGE_DESCRIPTION =
-  'Zapisuj i obserwuj swoje wzorce reakcji. Dane s\u0105 przechowywane lokalnie w Twojej przegl\u0105darce.';
+  'Zapisuj i obserwuj swoje wzorce reakcji. Dane są przechowywane lokalnie w Twojej przeglądarce.';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -88,28 +88,28 @@ interface FieldConfig {
 const FIELDS: FieldConfig[] = [
   {
     key: 'event',
-    label: 'Co si\u0119 wydarzy\u0142o?',
-    placeholder: 'Opisz sytuacj\u0119, kt\u00f3ra wywo\u0142a\u0142a reakcj\u0119\u2026',
+    label: 'Co się wydarzyło?',
+    placeholder: 'Opisz sytuację, która wywołała reakcję\u2026',
   },
   {
     key: 'body',
-    label: 'Co poczu\u0142am/em w ciele?',
-    placeholder: 'Np. napi\u0119cie w brzuchu, szybsze bicie serca, ciep\u0142o w twarzy\u2026',
+    label: 'Co poczułam/em w ciele?',
+    placeholder: 'Np. napięcie w brzuchu, szybsze bicie serca, ciepło w twarzy\u2026',
   },
   {
     key: 'reaction',
-    label: 'Jaka by\u0142a moja pierwsza reakcja?',
-    placeholder: 'Co zrobi\u0142am/em lub chcia\u0142am/em zrobi\u0107\u2026',
+    label: 'Jaka była moja pierwsza reakcja?',
+    placeholder: 'Co zrobiłam/em lub chciałam/em zrobić\u2026',
   },
   {
     key: 'alternative',
-    label: 'Co bym chcia\u0142a/chcia\u0142 zrobi\u0107 inaczej?',
-    placeholder: 'Je\u015bli mog\u0142abym/m\u00f3g\u0142bym cofn\u0105\u0107 czas\u2026',
+    label: 'Co bym chciała/chciał zrobić inaczej?',
+    placeholder: 'Jeśli mogłabym/mógłbym cofnąć czas\u2026',
   },
   {
     key: 'lesson',
-    label: 'Czego to mnie uczy o moim uk\u0142adzie nerwowym?',
-    placeholder: 'Co zauwa\u017cam w swoich wzorcach\u2026',
+    label: 'Czego to mnie uczy o moim układzie nerwowym?',
+    placeholder: 'Co zauważam w swoich wzorcach\u2026',
   },
 ];
 
@@ -181,41 +181,42 @@ export default function TriggerJournalPage() {
 
   return (
     <div className="section-spacing">
-      <div className="content-container">
+      <div className="content-container-sm">
         {/* Header */}
-        <header className="mb-10">
+        <header className="mb-14">
           <nav className="mb-6">
             <Link
               href="/tools"
-              className="text-sage-600 hover:text-sage-700 transition-colors text-sm"
+              className="text-sage-600 hover:text-sage-700 transition-colors text-body-sm font-medium"
             >
-              &larr; Narz\u0119dzia
+              &larr; Narzędzia
             </Link>
           </nav>
-          <h1 className="font-serif text-3xl md:text-4xl text-earth-800 mb-3">
+          <span className="label-editorial-pill mb-6 inline-flex">Dziennik</span>
+          <h1 className="font-serif text-display-sm text-earth-950 mb-4">
             Dziennik reakcji
           </h1>
-          <p className="text-earth-500 text-lg leading-relaxed max-w-2xl">
-            Zapisuj swoje obserwacje. Szukaj wzorc\u00f3w. Ucz si\u0119 z w\u0142asnego
-            do\u015bwiadczenia.
+          <p className="text-body-lg text-earth-600 leading-relaxed max-w-2xl">
+            Zapisuj swoje obserwacje. Szukaj wzorców. Ucz się z własnego
+            doświadczenia.
           </p>
         </header>
 
         {/* Privacy note */}
-        <div className="rounded-xl border border-sage-200 bg-sage-50 p-4 mb-8">
-          <p className="text-sage-700 text-sm leading-relaxed">
-            Ten dziennik jest tylko dla Ciebie. Dane s\u0105 przechowywane lokalnie
-            w Twojej przegl\u0105darce i nie s\u0105 wysy\u0142ane na \u017caden serwer.
+        <div className="rounded-3xl border border-sage-200/60 bg-sage-100/50 p-5 md:p-6 mb-10">
+          <p className="text-body-sm text-sage-700 leading-relaxed">
+            Ten dziennik jest tylko dla Ciebie. Dane są przechowywane lokalnie
+            w Twojej przeglądarce i nie są wysyłane na żaden serwer.
           </p>
         </div>
 
         {/* Form */}
-        <div className="space-y-6 mb-8 print:space-y-4">
+        <div className="space-y-6 mb-10 print:space-y-4">
           {FIELDS.map((field) => (
             <div key={field.key}>
               <label
                 htmlFor={`field-${field.key}`}
-                className="block text-earth-700 font-medium mb-2"
+                className="block text-body-base text-earth-800 font-medium mb-2"
               >
                 {field.label}
               </label>
@@ -225,9 +226,9 @@ export default function TriggerJournalPage() {
                 onChange={(e) => handleChange(field.key, e.target.value)}
                 placeholder={field.placeholder}
                 rows={3}
-                className="w-full rounded-xl border border-warm-200 bg-white px-4 py-3
-                           text-earth-800 placeholder:text-earth-300
-                           focus:border-sage-400 focus:ring-1 focus:ring-sage-400
+                className="w-full rounded-2xl bg-white border border-warm-200/60 px-5 py-4
+                           text-body-base text-earth-800 placeholder:text-earth-400
+                           focus:border-sage-400 focus:ring-2 focus:ring-sage-500/20
                            focus:outline-none transition-colors resize-y"
               />
             </div>
@@ -235,20 +236,21 @@ export default function TriggerJournalPage() {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap gap-3 mb-10 print:hidden">
+        <div className="flex flex-wrap gap-3 mb-14 print:hidden">
           <button
             onClick={handleSave}
             disabled={!hasContent}
-            className="px-6 py-3 rounded-xl bg-sage-600 text-white font-medium
-                       hover:bg-sage-700 transition-colors disabled:opacity-40
-                       disabled:cursor-not-allowed"
+            className="px-8 py-3.5 rounded-2xl bg-sage-600 text-white font-medium text-body-sm
+                       hover:bg-sage-700 active:bg-sage-800 transition-colors shadow-soft
+                       disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {saved ? 'Zapisano' : 'Zapisz wpis'}
           </button>
           <button
             onClick={handlePrint}
-            className="px-6 py-3 rounded-xl border border-warm-200 text-earth-600
-                       hover:border-warm-300 hover:bg-warm-50 transition-colors"
+            className="px-8 py-3.5 rounded-2xl border border-warm-200/60 text-earth-700
+                       font-medium text-body-sm bg-warm-100
+                       hover:bg-warm-200 active:bg-warm-300 transition-colors"
           >
             Drukuj
           </button>
@@ -256,11 +258,11 @@ export default function TriggerJournalPage() {
 
         {/* History */}
         {entries.length > 0 && (
-          <div className="mb-10 print:hidden">
+          <div className="mb-14 print:hidden">
             <button
               onClick={() => setHistoryOpen(!historyOpen)}
-              className="flex items-center gap-2 text-earth-700 font-medium
-                         hover:text-earth-900 transition-colors mb-4"
+              className="flex items-center gap-2 text-earth-800 font-medium text-body-base
+                         hover:text-earth-950 transition-colors mb-6"
             >
               <span
                 className={`inline-block transition-transform duration-200 ${
@@ -269,15 +271,15 @@ export default function TriggerJournalPage() {
               >
                 &#9654;
               </span>
-              Historia wpis\u00f3w ({entries.length})
+              Historia wpisów ({entries.length})
             </button>
 
             {historyOpen && (
-              <div className="space-y-3 animate-fade-in">
+              <div className="space-y-4 animate-fade-in">
                 {entries.map((entry) => (
                   <div
                     key={entry.id}
-                    className="rounded-xl border border-warm-200 bg-white overflow-hidden"
+                    className="rounded-3xl border border-warm-200/60 bg-white overflow-hidden shadow-bento"
                   >
                     {/* Entry header */}
                     <button
@@ -286,14 +288,14 @@ export default function TriggerJournalPage() {
                           expandedEntry === entry.id ? null : entry.id
                         )
                       }
-                      className="w-full flex items-start justify-between gap-4 p-4
-                                 text-left hover:bg-warm-50 transition-colors"
+                      className="w-full flex items-start justify-between gap-4 p-5 md:p-6
+                                 text-left hover:bg-warm-100/40 transition-colors"
                     >
                       <div className="flex-1 min-w-0">
-                        <span className="block text-earth-400 text-sm mb-1">
+                        <span className="block text-earth-500 text-body-sm mb-1">
                           {formatDate(entry.date)}
                         </span>
-                        <span className="block text-earth-700 text-sm">
+                        <span className="block text-earth-800 text-body-sm">
                           {truncate(entry.event || entry.body || entry.reaction || '(pusty wpis)', 80)}
                         </span>
                       </div>
@@ -308,15 +310,15 @@ export default function TriggerJournalPage() {
 
                     {/* Expanded content */}
                     {expandedEntry === entry.id && (
-                      <div className="border-t border-warm-100 p-4 space-y-4 animate-fade-in">
+                      <div className="border-t border-warm-200/40 p-5 md:p-6 space-y-4 animate-fade-in">
                         {FIELDS.map(
                           (field) =>
                             entry[field.key] && (
                               <div key={field.key}>
-                                <span className="block text-earth-500 text-sm font-medium mb-1">
+                                <span className="block text-earth-600 text-body-sm font-medium mb-1">
                                   {field.label}
                                 </span>
-                                <p className="text-earth-700 text-sm leading-relaxed whitespace-pre-wrap">
+                                <p className="text-body-sm text-earth-700 leading-relaxed whitespace-pre-wrap">
                                   {entry[field.key]}
                                 </p>
                               </div>
@@ -324,10 +326,10 @@ export default function TriggerJournalPage() {
                         )}
                         <button
                           onClick={() => handleDelete(entry.id)}
-                          className="text-earth-400 hover:text-earth-600 text-sm
+                          className="text-earth-500 hover:text-earth-700 text-body-sm
                                      transition-colors mt-2"
                         >
-                          Usu\u0144 wpis
+                          Usuń wpis
                         </button>
                       </div>
                     )}
@@ -339,13 +341,13 @@ export default function TriggerJournalPage() {
         )}
 
         {/* Disclaimer */}
-        <div className="rounded-xl border border-warm-200 bg-warm-50 p-5 print:hidden">
-          <p className="text-earth-500 text-sm leading-relaxed">
-            <strong className="text-earth-600">Uwaga:</strong> Ten dziennik jest
-            narz\u0119dziem samoobserwacji, a nie narz\u0119dziem diagnostycznym.
-            Nie zast\u0119puje terapii ani pomocy psychologicznej. Je\u015bli
-            zauwa\u017casz trudne wzorce, kt\u00f3re Ci\u0119 przyt\u0142aczaj\u0105 &mdash;
-            si\u0119gnij po profesjonaln\u0105 pomoc.
+        <div className="rounded-3xl border border-warm-200/60 bg-warm-100/40 p-6 md:p-7 print:hidden">
+          <p className="text-body-sm text-earth-600 leading-relaxed">
+            <strong className="text-earth-700">Uwaga:</strong> Ten dziennik jest
+            narzędziem samoobserwacji, a nie narzędziem diagnostycznym.
+            Nie zastępuje terapii ani pomocy psychologicznej. Jeśli
+            zauważasz trudne wzorce, które Cię przytłaczają &mdash;
+            sięgnij po profesjonalną pomoc.
           </p>
         </div>
       </div>

@@ -7,9 +7,9 @@ import Link from 'next/link';
 /*  Metadata                                                           */
 /* ------------------------------------------------------------------ */
 
-const PAGE_TITLE = 'Menu uziemienia | Aga \u00b7 Joga Kundalini';
+const PAGE_TITLE = 'Menu uziemienia | Aga · Joga Kundalini';
 const PAGE_DESCRIPTION =
-  'Gdy czujesz X, spr\u00f3buj Y. Praktyczne techniki uziemienia dopasowane do Twojego stanu.';
+  'Gdy czujesz X, spróbuj Y. Praktyczne techniki uziemienia dopasowane do Twojego stanu.';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -36,38 +36,38 @@ interface EmotionalState {
 /* ------------------------------------------------------------------ */
 
 const TYPE_LABELS: Record<GroundingTechnique['type'], string> = {
-  body: 'cia\u0142o',
+  body: 'ciało',
   breath: 'oddech',
-  sensory: 'zmys\u0142y',
+  sensory: 'zmysły',
   movement: 'ruch',
 };
 
 const STATES: EmotionalState[] = [
   {
     id: 'lek',
-    label: 'L\u0119k / niepok\u00f3j',
-    icon: '\u25cb',
-    description: 'Kiedy czujesz przyspieszone serce, niespokojne my\u015bli lub napi\u0119cie.',
+    label: 'Lęk / niepokój',
+    icon: '○',
+    description: 'Kiedy czujesz przyspieszone serce, niespokojne myśli lub napięcie.',
     techniques: [
       {
-        instruction: 'Wyd\u0142u\u017c wydech \u2013 wdech na 4, wydech na 6\u20138. Powt\u00f3rz 5 razy.',
-        time: '1\u20132 min',
+        instruction: 'Wydłuż wydech – wdech na 4, wydech na 6–8. Powtórz 5 razy.',
+        time: '1–2 min',
         type: 'breath',
         link: '/practices/oddech',
-        linkLabel: 'Wi\u0119cej praktyk oddechowych',
+        linkLabel: 'Więcej praktyk oddechowych',
       },
       {
-        instruction: 'Poczuj stopy na pod\u0142odze. Wci\u015bnij je mocno. Poczuj pod\u0142o\u017ce.',
+        instruction: 'Poczuj stopy na podłodze. Wciśnij je mocno. Poczuj podłoże.',
         time: '30 s',
         type: 'body',
       },
       {
-        instruction: 'Nazwa\u0107 5 rzeczy, kt\u00f3re widzisz. 4, kt\u00f3re s\u0142yszysz. 3, kt\u00f3re czujesz dotykiem.',
-        time: '1\u20132 min',
+        instruction: 'Nazwać 5 rzeczy, które widzisz. 4, które słyszysz. 3, które czujesz dotykiem.',
+        time: '1–2 min',
         type: 'sensory',
       },
       {
-        instruction: 'Po\u0142\u00f3\u017c jedn\u0105 d\u0142o\u0144 na klatce piersiowej, drug\u0105 na brzuchu. Oddychaj powoli.',
+        instruction: 'Połóż jedną dłoń na klatce piersiowej, drugą na brzuchu. Oddychaj powoli.',
         time: '1 min',
         type: 'body',
       },
@@ -75,29 +75,29 @@ const STATES: EmotionalState[] = [
   },
   {
     id: 'zlosc',
-    label: 'Z\u0142o\u015b\u0107 / irytacja',
-    icon: '\u25cb',
-    description: 'Kiedy czujesz gor\u0105co, napi\u0119cie w szcz\u0119ce lub d\u0142oniach.',
+    label: 'Złość / irytacja',
+    icon: '○',
+    description: 'Kiedy czujesz gorąco, napięcie w szczęce lub dłoniach.',
     techniques: [
       {
-        instruction: 'Potrz\u0105\u015bnij d\u0142o\u0144mi energicznie przez 30 sekund. Pozw\u00f3l energii wyj\u015b\u0107.',
+        instruction: 'Potrząśnij dłońmi energicznie przez 30 sekund. Pozwól energii wyjść.',
         time: '30 s',
         type: 'movement',
         link: '/practices/ruch',
-        linkLabel: 'Wi\u0119cej praktyk ruchowych',
+        linkLabel: 'Więcej praktyk ruchowych',
       },
       {
-        instruction: 'Wydech ustami z d\u017awi\u0119kiem \u201ehaaa\u201d. Powt\u00f3rz 5\u20138 razy.',
+        instruction: 'Wydech ustami z dźwiękiem \u201ehaaa\u201d. Powtórz 5–8 razy.',
         time: '1 min',
         type: 'breath',
       },
       {
-        instruction: 'Dotknij czego\u015b zimnego \u2013 kranu, szklanki z wod\u0105, \u015bciany.',
+        instruction: 'Dotknij czegoś zimnego – kranu, szklanki z wodą, ściany.',
         time: '30 s',
         type: 'sensory',
       },
       {
-        instruction: 'Napi\u0105j wszystkie mi\u0119\u015bnie na 5 sekund, potem pu\u015b\u0107. Powt\u00f3rz 3 razy.',
+        instruction: 'Napiąj wszystkie mięśnie na 5 sekund, potem puść. Powtórz 3 razy.',
         time: '1 min',
         type: 'body',
       },
@@ -105,61 +105,61 @@ const STATES: EmotionalState[] = [
   },
   {
     id: 'odciecie',
-    label: 'Odci\u0119cie / zamro\u017cenie',
-    icon: '\u25cb',
-    description: 'Kiedy czujesz odr\u0119twienie, pustk\u0119, jakby\u015b by\u0142/a daleko.',
+    label: 'Odcięcie / zamrożenie',
+    icon: '○',
+    description: 'Kiedy czujesz odrętwienie, pustkę, jakbyś był/a daleko.',
     techniques: [
       {
-        instruction: 'Potupuj mocno stopami o pod\u0142og\u0119. Poczuj wibracje w nogach.',
+        instruction: 'Potupuj mocno stopami o podłogę. Poczuj wibracje w nogach.',
         time: '30 s',
         type: 'movement',
         link: '/practices/ruch',
-        linkLabel: 'Wi\u0119cej praktyk ruchowych',
+        linkLabel: 'Więcej praktyk ruchowych',
       },
       {
-        instruction: 'Sp\u0142ucz twarz zimn\u0105 wod\u0105 lub przytrzymaj kostk\u0119 lodu w d\u0142oni.',
+        instruction: 'Spłucz twarz zimną wodą lub przytrzymaj kostkę lodu w dłoni.',
         time: '30 s',
         type: 'sensory',
       },
       {
-        instruction: 'Rozejrzyj si\u0119 po pokoju i na g\u0142os nazwij kolory, kt\u00f3re widzisz.',
+        instruction: 'Rozejrzyj się po pokoju i na głos nazwij kolory, które widzisz.',
         time: '1 min',
         type: 'sensory',
       },
       {
-        instruction: 'Energiczny wdech nosem, kr\u00f3tki wydech ustami. 10 powtorze\u0144.',
+        instruction: 'Energiczny wdech nosem, krótki wydech ustami. 10 powtorzeń.',
         time: '1 min',
         type: 'breath',
         link: '/practices/oddech',
-        linkLabel: 'Wi\u0119cej praktyk oddechowych',
+        linkLabel: 'Więcej praktyk oddechowych',
       },
     ],
   },
   {
     id: 'przebodzcowanie',
-    label: 'Przebod\u017acowanie',
-    icon: '\u25cb',
-    description: 'Kiedy wszystko jest za g\u0142o\u015bne, za szybkie, za du\u017co.',
+    label: 'Przebodźcowanie',
+    icon: '○',
+    description: 'Kiedy wszystko jest za głośne, za szybkie, za dużo.',
     techniques: [
       {
-        instruction: 'Zakryj oczy d\u0142o\u0144mi. Oddychaj powoli w ciemno\u015b\u0107.',
-        time: '1\u20132 min',
+        instruction: 'Zakryj oczy dłońmi. Oddychaj powoli w ciemność.',
+        time: '1–2 min',
         type: 'body',
       },
       {
-        instruction: 'Wyd\u0142u\u017c wydech na 8 sekund. Wdech na 4. Powt\u00f3rz 6 razy.',
-        time: '1\u20132 min',
+        instruction: 'Wydłuż wydech na 8 sekund. Wdech na 4. Powtórz 6 razy.',
+        time: '1–2 min',
         type: 'breath',
         link: '/practices/oddech',
-        linkLabel: 'Wi\u0119cej praktyk oddechowych',
+        linkLabel: 'Więcej praktyk oddechowych',
       },
       {
-        instruction: 'Dotknij d\u0142o\u0144mi ramion (u\u015bcisk motyla). Delikatnie klepnij na przemian.',
+        instruction: 'Dotknij dłońmi ramion (uścisk motyla). Delikatnie klepnij na przemian.',
         time: '1 min',
         type: 'body',
       },
       {
-        instruction: 'Je\u015bli mo\u017cesz \u2013 wyjd\u017a na zewn\u0105trz. Poczuj powietrze na sk\u00f3rze.',
+        instruction: 'Jeśli możesz – wyjdź na zewnątrz. Poczuj powietrze na skórze.',
         time: '2 min',
         type: 'sensory',
       },
@@ -167,59 +167,59 @@ const STATES: EmotionalState[] = [
   },
   {
     id: 'smutek',
-    label: 'Smutek / ci\u0119\u017cko\u015b\u0107',
-    icon: '\u25cb',
-    description: 'Kiedy czujesz ci\u0119\u017car, brak energii, \u0142zy.',
+    label: 'Smutek / ciężkość',
+    icon: '○',
+    description: 'Kiedy czujesz ciężar, brak energii, łzy.',
     techniques: [
       {
-        instruction: 'Po\u0142\u00f3\u017c d\u0142o\u0144 na sercu. Powiedz do siebie: \u201eTo, co czuj\u0119, jest w porz\u0105dku.\u201d',
+        instruction: 'Połóż dłoń na sercu. Powiedz do siebie: \u201eTo, co czuję, jest w porządku.\u201d',
         time: '1 min',
         type: 'body',
       },
       {
-        instruction: 'Delikatnie ko\u0142ysz si\u0119 w prz\u00f3d i w ty\u0142, siedz\u0105c lub stoj\u0105c.',
-        time: '1\u20132 min',
+        instruction: 'Delikatnie kołysz się w przód i w tył, siedząc lub stojąc.',
+        time: '1–2 min',
         type: 'movement',
       },
       {
-        instruction: 'G\u0142\u0119boki wdech nosem, d\u0142ugi wydech z westchnieniem.',
+        instruction: 'Głęboki wdech nosem, długi wydech z westchnieniem.',
         time: '1 min',
         type: 'breath',
       },
       {
-        instruction: 'Owi\u0144 si\u0119 kocem lub swetrem. Pozw\u00f3l sobie na ciep\u0142o.',
+        instruction: 'Owiń się kocem lub swetrem. Pozwól sobie na ciepło.',
         time: '2 min',
         type: 'sensory',
         link: '/practices/medytacja',
-        linkLabel: 'Spr\u00f3buj \u0142agodnej medytacji',
+        linkLabel: 'Spróbuj łagodnej medytacji',
       },
     ],
   },
   {
     id: 'nie-wiem',
-    label: 'Nie wiem, co czuj\u0119',
-    icon: '\u25cb',
-    description: 'I to jest w porz\u0105dku. Zacznij od cia\u0142a.',
+    label: 'Nie wiem, co czuję',
+    icon: '○',
+    description: 'I to jest w porządku. Zacznij od ciała.',
     techniques: [
       {
-        instruction: 'Zeskanuj cia\u0142o od st\u00f3p do g\u0142owy. Gdzie czujesz co\u015b? Co to jest?',
+        instruction: 'Zeskanuj ciało od stóp do głowy. Gdzie czujesz coś? Co to jest?',
         time: '2 min',
         type: 'body',
         link: '/practices/medytacja',
-        linkLabel: 'Spr\u00f3buj medytacji skanowania cia\u0142a',
+        linkLabel: 'Spróbuj medytacji skanowania ciała',
       },
       {
-        instruction: 'Po\u0142\u00f3\u017c d\u0142onie na brzuchu. Po prostu oddychaj i obserwuj.',
-        time: '1\u20132 min',
+        instruction: 'Połóż dłonie na brzuchu. Po prostu oddychaj i obserwuj.',
+        time: '1–2 min',
         type: 'breath',
       },
       {
-        instruction: 'Dotknij r\u00f3\u017cnych powierzchni wok\u00f3\u0142 siebie. Co czujesz pod palcami?',
+        instruction: 'Dotknij różnych powierzchni wokół siebie. Co czujesz pod palcami?',
         time: '1 min',
         type: 'sensory',
       },
       {
-        instruction: 'Powoli obr\u00f3\u0107 g\u0142ow\u0119 w jedn\u0105 stron\u0119, potem w drug\u0105. Poczuj szyj\u0119.',
+        instruction: 'Powoli obróć głowę w jedną stronę, potem w drugą. Poczuj szyję.',
         time: '30 s',
         type: 'movement',
       },
@@ -244,44 +244,45 @@ export default function GroundingMenuPage() {
 
   return (
     <div className="section-spacing">
-      <div className="content-container">
+      <div className="content-container-sm">
         {/* Header */}
-        <header className="mb-10">
+        <header className="mb-14">
           <nav className="mb-6">
             <Link
               href="/tools"
-              className="text-sage-600 hover:text-sage-700 transition-colors text-sm"
+              className="text-sage-600 hover:text-sage-700 transition-colors text-body-sm font-medium"
             >
-              &larr; Narz\u0119dzia
+              &larr; Narzędzia
             </Link>
           </nav>
-          <h1 className="font-serif text-3xl md:text-4xl text-earth-800 mb-3">
+          <span className="label-editorial-pill mb-6 inline-flex">Uziemienie</span>
+          <h1 className="font-serif text-display-sm text-earth-950 mb-4">
             Menu uziemienia
           </h1>
-          <p className="text-earth-500 text-lg leading-relaxed max-w-2xl">
-            Gdy czujesz X, spr\u00f3buj Y. Wybierz stan, kt\u00f3ry jest Ci teraz najbli\u017cszy.
+          <p className="text-body-lg text-earth-600 leading-relaxed max-w-2xl">
+            Gdy czujesz X, spróbuj Y. Wybierz stan, który jest Ci teraz najbliższy.
           </p>
         </header>
 
         {/* State buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
           {STATES.map((state) => (
             <button
               key={state.id}
               onClick={() => setSelectedId(state.id === selectedId ? null : state.id)}
               className={`
-                p-4 rounded-xl border text-left transition-all duration-200
+                p-5 rounded-2xl border text-left transition-all duration-300 ease-gentle
                 ${
                   state.id === selectedId
-                    ? 'border-sage-400 bg-sage-50 shadow-sm'
-                    : 'border-warm-200 bg-white hover:border-warm-300 hover:bg-warm-50'
+                    ? 'border-sage-300 bg-sage-100/60 shadow-soft'
+                    : 'border-warm-200/60 bg-white hover:border-warm-300/60 hover:shadow-bento'
                 }
               `}
             >
-              <span className="block text-earth-800 font-medium mb-1">
+              <span className="block text-earth-900 font-medium text-body-base mb-1">
                 {state.label}
               </span>
-              <span className="block text-earth-400 text-sm">
+              <span className="block text-earth-500 text-body-sm">
                 {state.description}
               </span>
             </button>
@@ -291,35 +292,38 @@ export default function GroundingMenuPage() {
         {/* Techniques for selected state */}
         {selected && (
           <div className="animate-fade-in">
-            <h2 className="font-serif text-2xl text-earth-800 mb-2">
+            <h2 className="font-serif text-heading-xl text-earth-950 mb-2">
               {selected.label}
             </h2>
-            <p className="text-earth-500 mb-6">{selected.description}</p>
+            <p className="text-body-base text-earth-600 mb-8">{selected.description}</p>
 
             <div className="space-y-4 mb-10">
               {selected.techniques.map((tech, i) => (
                 <div
                   key={i}
-                  className="rounded-xl border border-warm-200 bg-white p-5"
+                  className="rounded-3xl border border-warm-200/60 bg-white p-6 md:p-7 shadow-bento"
                 >
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <span className="inline-block text-xs font-medium uppercase tracking-wider text-sage-600 bg-sage-50 px-2 py-1 rounded">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <span className="label-editorial-pill">
                       {TYPE_LABELS[tech.type]}
                     </span>
-                    <span className="text-earth-400 text-sm whitespace-nowrap">
+                    <span className="text-earth-500 text-body-sm whitespace-nowrap">
                       {tech.time}
                     </span>
                   </div>
-                  <p className="text-earth-700 text-calm-body leading-relaxed mb-3">
+                  <p className="text-body-base text-earth-700 leading-relaxed mb-3">
                     {tech.instruction}
                   </p>
                   {tech.link && (
                     <Link
                       href={tech.link}
-                      className="text-sage-600 hover:text-sage-700 text-sm
-                                 underline underline-offset-2 transition-colors"
+                      className="inline-flex items-center gap-2 text-sage-700 font-medium text-body-sm
+                                 hover:text-sage-800 transition-colors"
                     >
-                      {tech.linkLabel} &rarr;
+                      {tech.linkLabel}
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
                     </Link>
                   )}
                 </div>
@@ -328,21 +332,22 @@ export default function GroundingMenuPage() {
 
             <button
               onClick={() => setSelectedId(null)}
-              className="px-6 py-3 rounded-xl border border-warm-200 text-earth-600
-                         hover:border-warm-300 hover:bg-warm-50 transition-colors"
+              className="px-8 py-3.5 rounded-2xl border border-warm-200/60 text-earth-700
+                         font-medium text-body-sm bg-warm-100
+                         hover:bg-warm-200 active:bg-warm-300 transition-colors"
             >
-              Wr\u00f3\u0107 do wyboru
+              Wróć do wyboru
             </button>
           </div>
         )}
 
         {/* Disclaimer */}
-        <div className="rounded-xl border border-warm-200 bg-warm-50 p-5 mt-10">
-          <p className="text-earth-500 text-sm leading-relaxed">
-            <strong className="text-earth-600">Uwaga:</strong> Te sugestie nie
-            zast\u0119puj\u0105 terapii ani pomocy medycznej. S\u0105 to proste praktyki, kt\u00f3re
-            mog\u0105 pom\u00f3c w codziennej regulacji. Je\u015bli Twoje trudno\u015bci si\u0119
-            utrzymuj\u0105, si\u0119gnij po profesjonalne wsparcie.
+        <div className="rounded-3xl border border-warm-200/60 bg-warm-100/40 p-6 md:p-7 mt-14">
+          <p className="text-body-sm text-earth-600 leading-relaxed">
+            <strong className="text-earth-700">Uwaga:</strong> Te sugestie nie
+            zastępują terapii ani pomocy medycznej. Są to proste praktyki, które
+            mogą pomóc w codziennej regulacji. Jeśli Twoje trudności się
+            utrzymują, sięgnij po profesjonalne wsparcie.
           </p>
         </div>
       </div>

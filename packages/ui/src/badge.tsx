@@ -4,26 +4,28 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "./utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:ring-offset-2",
+  "inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sage-400 focus:ring-offset-2",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-sage-100 text-sage-800",
+          "border-transparent bg-sage-100/70 text-sage-800",
         secondary:
-          "border-transparent bg-warm-100 text-warm-800",
+          "border-transparent bg-warm-100/70 text-warm-800",
         outline:
-          "border-warm-300 text-warm-700",
+          "border-warm-300/60 text-earth-600",
         oddech:
-          "border-transparent bg-sky-100 text-sky-800",
+          "border-transparent bg-sky-100/70 text-sky-800",
         ruch:
-          "border-transparent bg-earth-100 text-earth-800",
+          "border-transparent bg-earth-100/70 text-earth-800",
         medytacja:
-          "border-transparent bg-sage-100 text-sage-800",
+          "border-transparent bg-sage-100/70 text-sage-800",
         reset:
-          "border-transparent bg-rose-100 text-rose-800",
+          "border-transparent bg-rose-100/70 text-rose-800",
         edukacja:
-          "border-transparent bg-warm-100 text-warm-800",
+          "border-transparent bg-warm-100/70 text-warm-800",
+        gold:
+          "border-transparent bg-gold-100/70 text-gold-800",
       },
     },
     defaultVariants: {

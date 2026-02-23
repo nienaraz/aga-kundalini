@@ -11,7 +11,47 @@ import {
   syncQuizResultToDb,
 } from '@/lib/quiz/storage';
 import type { StoredQuizResult } from '@/lib/quiz/storage';
-import type { QuizScores } from '@/lib/quiz/scoring';
+import type { StateScore } from '@/lib/quiz/scoring';
+
+// ---------------------------------------------------------------------------
+// State-based color mapping for the bento result card
+// ---------------------------------------------------------------------------
+const stateColorMap: Record<
+  string,
+  { bg: string; border: string; pill: string; pillText: string }
+> = {
+  regulated: {
+    bg: 'bg-sage-100/60',
+    border: 'border-sage-200/40',
+    pill: 'bg-sage-200/70',
+    pillText: 'text-sage-800',
+  },
+  activation: {
+    bg: 'bg-gold-50',
+    border: 'border-gold-200/40',
+    pill: 'bg-gold-200/70',
+    pillText: 'text-gold-900',
+  },
+  shutdown: {
+    bg: 'bg-warm-100/60',
+    border: 'border-warm-200/40',
+    pill: 'bg-warm-300/50',
+    pillText: 'text-earth-800',
+  },
+  mixed: {
+    bg: 'bg-rose-50',
+    border: 'border-rose-200/40',
+    pill: 'bg-rose-200/50',
+    pillText: 'text-rose-800',
+  },
+};
+
+const defaultColors = {
+  bg: 'bg-warm-100/60',
+  border: 'border-warm-200/40',
+  pill: 'bg-warm-300/50',
+  pillText: 'text-earth-800',
+};
 
 export default function QuizResultPage() {
   const router = useRouter();
@@ -51,44 +91,49 @@ export default function QuizResultPage() {
   if (loading || !state || !result) {
     return (
       <div className="section-spacing">
-        <div className="content-container max-w-2xl text-center">
-          <p className="text-earth-400">Wczytuję wynik...</p>
+        <div className="content-container-xs text-center">
+          <p className="text-body-base text-earth-500">Wczytuję wynik...</p>
         </div>
       </div>
     );
   }
+
+  const colors = stateColorMap[state.id] ?? defaultColors;
 
   return (
     <>
       <title>Twój wynik | Aga &middot; Joga Kundalini</title>
 
       <div className="section-spacing">
-        <div className="content-container max-w-2xl">
+        <div className="content-container-xs">
           {/* ---------------------------------------------------------------- */}
           {/* Top disclaimer                                                    */}
           {/* ---------------------------------------------------------------- */}
-          <div
-            className="mb-8 rounded-xl border border-warm-300 bg-warm-100/60 px-5 py-4"
-            role="alert"
-          >
-            <p className="text-sm text-earth-700 leading-relaxed">
-              <strong className="text-earth-800">Pamiętaj:</strong> To
-              narzędzie samoobserwacji, nie diagnoza. Wynik odzwierciedla
+          <div className="card-warm mb-10" role="alert">
+            <p className="text-body-sm text-earth-700 leading-relaxed">
+              <strong className="text-earth-950 font-semibold">
+                Pamiętaj:
+              </strong>{' '}
+              To narzędzie samoobserwacji, nie diagnoza. Wynik odzwierciedla
               Twoje odpowiedzi w tym momencie i może się zmieniać.
             </p>
           </div>
 
           {/* ---------------------------------------------------------------- */}
-          {/* Result card                                                       */}
+          {/* Result card — bento style with state-based color                  */}
           {/* ---------------------------------------------------------------- */}
-          <div className="animate-fade-in rounded-2xl border border-sage-200 bg-white p-6 md:p-8 shadow-sm mb-8">
-            <p className="text-xs font-medium text-sage-600 mb-2 uppercase tracking-wide">
+          <div
+            className={`animate-fade-in bento-card ${colors.bg} ${colors.border} border mb-10`}
+          >
+            <span
+              className={`inline-flex items-center text-xs font-medium uppercase tracking-[0.12em] ${colors.pillText} ${colors.pill} px-3.5 py-1.5 rounded-full mb-5`}
+            >
               Twój profil regulacji
-            </p>
-            <h1 className="font-serif text-2xl md:text-3xl text-earth-800 mb-4">
+            </span>
+            <h1 className="font-serif text-display-sm text-earth-950 mb-5">
               {state.name}
             </h1>
-            <p className="text-earth-600 leading-relaxed mb-6">
+            <p className="text-body-base text-earth-700 leading-relaxed mb-8">
               {state.description}
             </p>
 
@@ -99,17 +144,19 @@ export default function QuizResultPage() {
           {/* ---------------------------------------------------------------- */}
           {/* What to try                                                       */}
           {/* ---------------------------------------------------------------- */}
-          <div className="animate-slide-up rounded-2xl border border-warm-200 bg-warm-50 p-6 md:p-8 mb-8">
-            <h2 className="font-serif text-xl text-earth-800 mb-4">
+          <div className="animate-slide-up card-sage mb-10">
+            <h2 className="font-serif text-heading-base text-earth-950 mb-5">
               Co możesz wypróbować
             </h2>
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {state.whatToTry.map((tip, idx) => (
-                <li key={idx} className="flex gap-3">
-                  <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sage-100 text-sage-700 text-xs font-semibold">
+                <li key={idx} className="flex gap-4">
+                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-sage-200/70 text-sage-800 text-xs font-semibold">
                     {idx + 1}
                   </span>
-                  <span className="text-earth-700 leading-relaxed">{tip}</span>
+                  <span className="text-body-base text-earth-700 leading-relaxed">
+                    {tip}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -123,11 +170,11 @@ export default function QuizResultPage() {
           {/* ---------------------------------------------------------------- */}
           {/* Actions                                                           */}
           {/* ---------------------------------------------------------------- */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               type="button"
               onClick={handleRetake}
-              className="rounded-xl border border-sage-300 px-6 py-3 text-sm font-medium text-sage-700 transition-colors hover:bg-sage-50"
+              className="rounded-2xl border border-sage-300 px-8 py-3.5 text-body-sm font-medium text-sage-700 transition-all duration-300 hover:bg-sage-50 hover:shadow-soft"
             >
               Powtórz quiz
             </button>
@@ -135,12 +182,12 @@ export default function QuizResultPage() {
               type="button"
               onClick={handleSave}
               disabled={saving || saved}
-              className={`rounded-xl px-6 py-3 text-sm font-medium transition-colors ${
+              className={`rounded-2xl px-8 py-3.5 text-body-sm font-medium transition-all duration-300 ${
                 saved
-                  ? 'bg-sage-100 text-sage-600 cursor-default'
+                  ? 'bg-sage-100 text-sage-700 cursor-default border border-sage-200/40'
                   : saving
                     ? 'bg-warm-200 text-earth-400 cursor-wait'
-                    : 'bg-sage-600 text-white hover:bg-sage-700'
+                    : 'bg-sage-600 text-white hover:bg-sage-700 shadow-soft hover:shadow-soft-lg'
               }`}
             >
               {saved
@@ -154,11 +201,11 @@ export default function QuizResultPage() {
           {/* ---------------------------------------------------------------- */}
           {/* Footer disclaimer                                                 */}
           {/* ---------------------------------------------------------------- */}
-          <footer className="mt-16 rounded-xl border border-warm-300 bg-warm-100/40 px-5 py-5">
-            <h3 className="text-sm font-semibold text-earth-700 mb-2">
+          <footer className="mt-20 card-warm">
+            <h3 className="text-body-sm font-semibold text-earth-800 mb-2.5">
               Zastrzeżenie medyczne
             </h3>
-            <p className="text-xs text-earth-500 leading-relaxed">
+            <p className="text-xs text-earth-600 leading-relaxed">
               Ten quiz jest narzędziem edukacyjnym i samoobserwacyjnym. Nie
               stanowi diagnozy medycznej, psychologicznej ani psychiatrycznej.
               Nie zastępuje profesjonalnej pomocy. Jeśli doświadczasz
@@ -176,48 +223,35 @@ export default function QuizResultPage() {
 }
 
 // ---------------------------------------------------------------------------
-// Dimension Chart – wizualizacja wyników w 4 wymiarach
+// Dimension Chart – wizualizacja wyników w każdym stanie
 // ---------------------------------------------------------------------------
-function DimensionChart({ scores }: { scores: QuizScores }) {
-  const dimensions = [
-    { key: 'activation' as const, label: 'Aktywacja', max: 9 },
-    { key: 'shutdown' as const, label: 'Wygaszenie', max: 9 },
-    { key: 'reactivity' as const, label: 'Reaktywność', max: 6 },
-    { key: 'regulation' as const, label: 'Regulacja', max: 6 },
-  ];
-
+function DimensionChart({ scores }: { scores: StateScore[] }) {
   return (
-    <div className="space-y-3">
-      {dimensions.map(({ key, label, max }) => {
-        const value = scores[key];
-        const pct = Math.min(100, Math.round((value / max) * 100));
+    <div className="space-y-4">
+      {scores.map(({ state, score, maxScore }) => {
+        const pct = maxScore > 0 ? Math.min(100, Math.round((score / maxScore) * 100)) : 0;
 
         return (
-          <div key={key}>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-sm text-earth-600">{label}</span>
-              <span className="text-xs text-earth-400">
-                {value}/{max}
+          <div key={state.id}>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-body-sm text-earth-700 font-medium">
+                {state.name}
+              </span>
+              <span className="text-xs text-earth-500">
+                {score}/{maxScore}
               </span>
             </div>
-            <div className="h-2 rounded-full bg-warm-200 overflow-hidden">
+            <div className="h-2.5 rounded-full bg-warm-200/80 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-700 ease-out"
                 style={{
                   width: `${pct}%`,
                   backgroundColor:
-                    key === 'regulation'
-                      ? // Regulation odwrotnie — niższy wynik = lepiej
-                        pct < 40
-                        ? '#587d58'
-                        : pct < 70
-                          ? '#dea45c'
-                          : '#cc3361'
-                      : pct < 40
-                        ? '#587d58'
-                        : pct < 70
-                          ? '#dea45c'
-                          : '#cc3361',
+                    pct < 40
+                      ? '#587d58'
+                      : pct < 70
+                        ? '#dea45c'
+                        : '#cc3361',
                 }}
               />
             </div>
@@ -229,13 +263,20 @@ function DimensionChart({ scores }: { scores: QuizScores }) {
 }
 
 // ---------------------------------------------------------------------------
-// Recommendation Cards
+// Recommendation Cards — bento-style grid
 // ---------------------------------------------------------------------------
 function RecommendationCards({
   recommendations,
 }: {
   recommendations: QuizState['recommendations'];
 }) {
+  const cardStyles = [
+    'card-calm',
+    'card-sage',
+    'card-warm',
+    'card-gold',
+  ];
+
   const cards: { label: string; href: string; icon: string }[] = [];
 
   if (recommendations.video) {
@@ -270,21 +311,21 @@ function RecommendationCards({
   if (cards.length === 0) return null;
 
   return (
-    <div className="mb-8">
-      <h2 className="font-serif text-xl text-earth-800 mb-4">
+    <div className="mb-10">
+      <h2 className="font-serif text-heading-base text-earth-950 mb-5">
         Polecane dla Ciebie
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {cards.map((card) => (
+        {cards.map((card, idx) => (
           <Link
             key={card.href}
             href={card.href}
-            className="card-calm flex items-center gap-4 group"
+            className={`${cardStyles[idx % cardStyles.length]} flex items-center gap-4 group bento-card-hover`}
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sage-100 text-sage-700 transition-colors group-hover:bg-sage-200">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sage-100/80 text-sage-700 transition-colors duration-300 group-hover:bg-sage-200">
               <CardIcon type={card.icon} />
             </span>
-            <span className="text-earth-700 font-medium group-hover:text-sage-700 transition-colors">
+            <span className="text-body-base text-earth-700 font-medium group-hover:text-sage-700 transition-colors duration-300">
               {card.label}
             </span>
           </Link>

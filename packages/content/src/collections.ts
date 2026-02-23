@@ -33,7 +33,7 @@ function getAllMdxFiles(dir: string, recursive: boolean): string[] {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory() && recursive) {
       files.push(...getAllMdxFiles(fullPath, recursive));
-    } else if (entry.isFile() && (entry.name.endsWith('.mdx') || entry.name.endsWith('.md'))) {
+    } else if (entry.isFile() && !entry.name.startsWith('_') && (entry.name.endsWith('.mdx') || entry.name.endsWith('.md'))) {
       files.push(fullPath);
     }
   }

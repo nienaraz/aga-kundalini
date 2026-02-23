@@ -49,7 +49,7 @@ export function createSearchIndex(documents: SearchDocument[]): string {
     tags: doc.tags.join(" "),
   }));
 
-  miniSearch.addAll(indexableDocuments);
+  miniSearch.addAll(indexableDocuments as unknown as SearchDocument[]);
   return JSON.stringify(miniSearch);
 }
 

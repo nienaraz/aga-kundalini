@@ -8,9 +8,9 @@ import Link from 'next/link';
 /*  client components, so we set document title manually)              */
 /* ------------------------------------------------------------------ */
 
-const PAGE_TITLE = 'Gdzie jestem w ukladzie nerwowym? | Aga \u00b7 Joga Kundalini';
+const PAGE_TITLE = 'Gdzie jestem w ukladzie nerwowym? | Aga · Joga Kundalini';
 const PAGE_DESCRIPTION =
-  'Krotkie sprawdzenie stanu ukladu nerwowego. Nie jest to diagnoza \u2013 to chwila uwagi dla siebie.';
+  'Krotkie sprawdzenie stanu ukladu nerwowego. Nie jest to diagnoza – to chwila uwagi dla siebie.';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -33,12 +33,12 @@ interface CheckInEntry {
 /* ------------------------------------------------------------------ */
 
 const CHECK_ITEMS: CheckItem[] = [
-  { id: 'napiecie', label: 'Czuj\u0119 napi\u0119cie w ciele', category: 'tension' },
-  { id: 'oddech', label: 'Oddech jest p\u0142ytki', category: 'tension' },
-  { id: 'mysli', label: 'My\u015bli si\u0119 kr\u0119c\u0105', category: 'tension' },
-  { id: 'odciecie', label: 'Czuj\u0119 si\u0119 odci\u0119ta/y', category: 'disconnection' },
-  { id: 'zmeczenie', label: 'Czuj\u0119 zm\u0119czenie', category: 'disconnection' },
-  { id: 'spokoj', label: 'Czuj\u0119 si\u0119 spokojna/y', category: 'calm' },
+  { id: 'napiecie', label: 'Czuję napięcie w ciele', category: 'tension' },
+  { id: 'oddech', label: 'Oddech jest płytki', category: 'tension' },
+  { id: 'mysli', label: 'Myśli się kręcą', category: 'tension' },
+  { id: 'odciecie', label: 'Czuję się odcięta/y', category: 'disconnection' },
+  { id: 'zmeczenie', label: 'Czuję zmęczenie', category: 'disconnection' },
+  { id: 'spokoj', label: 'Czuję się spokojna/y', category: 'calm' },
 ];
 
 interface Suggestion {
@@ -56,25 +56,25 @@ function getSuggestion(checked: string[]): Suggestion | null {
   // Priority: calm > tension > disconnection
   if (categories.has('calm') && categories.size === 1) {
     return {
-      text: '\u015awietnie. Mo\u017ce to dobry moment na medytacj\u0119?',
+      text: 'Świetnie. Może to dobry moment na medytację?',
       link: '/practices/medytacja',
-      linkLabel: 'Przejd\u017a do medytacji',
+      linkLabel: 'Przejdź do medytacji',
     };
   }
 
   if (categories.has('tension')) {
     return {
-      text: 'Mo\u017ce spr\u00f3buj wyd\u0142u\u017conego wydechu. Pom\u00f3\u017c cia\u0142u si\u0119 rozlu\u017ani\u0107.',
+      text: 'Może spróbuj wydłużonego wydechu. Pomóż ciału się rozluźnić.',
       link: '/practices/oddech',
-      linkLabel: 'Przejd\u017a do praktyk oddechowych',
+      linkLabel: 'Przejdź do praktyk oddechowych',
     };
   }
 
   if (categories.has('disconnection')) {
     return {
-      text: 'Mo\u017ce spr\u00f3buj delikatnego ruchu. Pozw\u00f3l cia\u0142u si\u0119 obudzi\u0107.',
+      text: 'Może spróbuj delikatnego ruchu. Pozwól ciału się obudzić.',
       link: '/practices/ruch',
-      linkLabel: 'Przejd\u017a do praktyk ruchowych',
+      linkLabel: 'Przejdź do praktyk ruchowych',
     };
   }
 
@@ -144,37 +144,38 @@ export default function CheckInPage() {
 
   return (
     <div className="section-spacing">
-      <div className="content-container">
+      <div className="content-container-sm">
         {/* Header */}
-        <header className="mb-10">
+        <header className="mb-14">
           <nav className="mb-6">
             <Link
               href="/tools"
-              className="text-sage-600 hover:text-sage-700 transition-colors text-sm"
+              className="text-sage-600 hover:text-sage-700 transition-colors text-body-sm font-medium"
             >
-              &larr; Narz\u0119dzia
+              &larr; Narzędzia
             </Link>
           </nav>
-          <h1 className="font-serif text-3xl md:text-4xl text-earth-800 mb-3">
-            Gdzie jestem w uk\u0142adzie nerwowym?
+          <span className="label-editorial-pill mb-6 inline-flex">Samosprawdzenie</span>
+          <h1 className="font-serif text-display-sm text-earth-950 mb-4">
+            Gdzie jestem w układzie nerwowym?
           </h1>
-          <p className="text-earth-500 text-lg leading-relaxed max-w-2xl">
-            Zatrzymaj si\u0119 na chwil\u0119. Zaznacz to, co teraz czujesz. Bez oceniania.
+          <p className="text-body-lg text-earth-600 leading-relaxed max-w-2xl">
+            Zatrzymaj się na chwilę. Zaznacz to, co teraz czujesz. Bez oceniania.
           </p>
         </header>
 
         {/* Checkboxes */}
-        <div className="space-y-3 mb-8">
+        <div className="space-y-3 mb-10">
           {CHECK_ITEMS.map((item) => (
             <label
               key={item.id}
               className={`
-                flex items-center gap-4 p-4 rounded-xl border cursor-pointer
-                transition-all duration-200
+                flex items-center gap-4 p-5 rounded-2xl border cursor-pointer
+                transition-all duration-300 ease-gentle
                 ${
                   checked.includes(item.id)
-                    ? 'border-sage-300 bg-sage-50'
-                    : 'border-warm-200 bg-white hover:border-warm-300'
+                    ? 'border-sage-300 bg-sage-100/60 shadow-soft'
+                    : 'border-warm-200/60 bg-white hover:border-warm-300/60 hover:shadow-bento'
                 }
               `}
             >
@@ -182,55 +183,59 @@ export default function CheckInPage() {
                 type="checkbox"
                 checked={checked.includes(item.id)}
                 onChange={() => toggleItem(item.id)}
-                className="w-5 h-5 rounded border-warm-300 text-sage-600
+                className="w-5 h-5 rounded-lg border-warm-300 text-sage-600
                            focus:ring-sage-500 focus:ring-offset-0 accent-sage-600"
               />
-              <span className="text-earth-700 text-calm-body">{item.label}</span>
+              <span className="text-body-base text-earth-700">{item.label}</span>
             </label>
           ))}
         </div>
 
         {/* Suggestion */}
         {suggestion && (
-          <div className="rounded-xl border border-sage-200 bg-sage-50 p-6 mb-8 animate-fade-in">
-            <p className="text-earth-700 text-lg mb-4">{suggestion.text}</p>
+          <div className="rounded-3xl border border-sage-200/60 bg-sage-100/50 p-6 md:p-7 mb-10 animate-fade-in">
+            <p className="text-body-lg text-earth-800 mb-4">{suggestion.text}</p>
             <Link
               href={suggestion.link}
-              className="inline-block text-sage-600 hover:text-sage-700
-                         underline underline-offset-2 transition-colors"
+              className="inline-flex items-center gap-2 text-sage-700 font-medium text-body-sm
+                         hover:text-sage-800 transition-colors"
             >
-              {suggestion.linkLabel} &rarr;
+              {suggestion.linkLabel}
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
             </Link>
           </div>
         )}
 
         {/* Actions */}
-        <div className="flex flex-wrap gap-3 mb-10">
+        <div className="flex flex-wrap gap-3 mb-14">
           <button
             onClick={handleSave}
             disabled={checked.length === 0 || saved}
-            className="px-6 py-3 rounded-xl bg-sage-600 text-white font-medium
-                       hover:bg-sage-700 transition-colors disabled:opacity-40
-                       disabled:cursor-not-allowed"
+            className="px-8 py-3.5 rounded-2xl bg-sage-600 text-white font-medium text-body-sm
+                       hover:bg-sage-700 active:bg-sage-800 transition-colors shadow-soft
+                       disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {saved ? 'Zapisano' : 'Zapisz sprawdzenie'}
           </button>
           <button
             onClick={handleReset}
-            className="px-6 py-3 rounded-xl border border-warm-200 text-earth-600
-                       hover:border-warm-300 hover:bg-warm-50 transition-colors"
+            className="px-8 py-3.5 rounded-2xl border border-warm-200/60 text-earth-700
+                       font-medium text-body-sm bg-warm-100
+                       hover:bg-warm-200 active:bg-warm-300 transition-colors"
           >
             Zacznij od nowa
           </button>
         </div>
 
         {/* Disclaimer */}
-        <div className="rounded-xl border border-warm-200 bg-warm-50 p-5">
-          <p className="text-earth-500 text-sm leading-relaxed">
-            <strong className="text-earth-600">Uwaga:</strong> To nie jest diagnoza
+        <div className="rounded-3xl border border-warm-200/60 bg-warm-100/40 p-6 md:p-7">
+          <p className="text-body-sm text-earth-600 leading-relaxed">
+            <strong className="text-earth-700">Uwaga:</strong> To nie jest diagnoza
             medyczna ani psychologiczna. To chwila uwagi dla siebie &mdash; prosty
-            moment zatrzymania i obserwacji. Je\u015bli czujesz, \u017ce potrzebujesz
-            wsparcia, si\u0119gnij po profesjonaln\u0105 pomoc.
+            moment zatrzymania i obserwacji. Jeśli czujesz, że potrzebujesz
+            wsparcia, sięgnij po profesjonalną pomoc.
           </p>
         </div>
       </div>

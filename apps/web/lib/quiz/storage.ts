@@ -1,10 +1,10 @@
-import type { QuizAnswers, QuizScores } from './scoring';
+import type { QuizAnswers, StateScore } from './scoring';
 
 const STORAGE_KEY = 'joga-quiz-result';
 
 export type StoredQuizResult = {
   answers: QuizAnswers;
-  scores: QuizScores;
+  scores: StateScore[];
   stateId: string;
   completedAt: string;
 };

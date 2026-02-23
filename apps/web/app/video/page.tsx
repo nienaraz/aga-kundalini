@@ -2,18 +2,13 @@ import type { Metadata } from 'next';
 import { getAllVideos, getAllTopics, getAllTags } from '@/lib/video';
 import VideoFilter from '@/components/video/VideoFilter';
 
-/* ------------------------------------------------------------------ */
-/*  /video – Video Hub listing page                                     */
-/* ------------------------------------------------------------------ */
-
 export const metadata: Metadata = {
   title: 'Video',
   description:
     'Krótkie materiały wideo o regulacji układu nerwowego, oddychaniu i praktykach jogi kundalini.',
   openGraph: {
     title: 'Video | Aga · Joga Kundalini',
-    description:
-      'Krótkie materiały wideo o regulacji układu nerwowego, oddychaniu i praktykach jogi kundalini.',
+    description: 'Krótkie materiały wideo o regulacji układu nerwowego, oddychaniu i praktykach jogi kundalini.',
   },
 };
 
@@ -25,19 +20,17 @@ export default function VideoHubPage() {
   return (
     <div className="section-spacing">
       <div className="content-container">
-        {/* Header */}
-        <header className="mb-10">
-          <h1 className="font-serif text-3xl md:text-4xl text-earth-800 mb-3">
+        <header className="mb-14">
+          <span className="label-editorial mb-4 block">Materiały wideo</span>
+          <h1 className="font-serif text-display-sm md:text-display text-earth-950 mb-4">
             Video
           </h1>
-          <p className="text-earth-500 text-lg leading-relaxed max-w-2xl">
+          <p className="text-body-lg text-earth-600 leading-relaxed max-w-2xl">
             Krótkie materiały wideo o regulacji układu nerwowego, praktykach
-            oddechowych i jodze kundalini. Obejrzyj, kiedy potrzebujesz wsparcia
-            lub inspiracji.
+            oddechowych i jodze kundalini.
           </p>
         </header>
 
-        {/* Filterable grid */}
         <VideoFilter videos={videos} topics={topics} tags={tags} />
       </div>
     </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { RegulationBar } from '@/components/layout/RegulationBar';
@@ -6,6 +7,21 @@ import { SearchModal } from '@/components/search/SearchModal';
 import { CalmModeProvider } from '@/components/providers/CalmModeProvider';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import './globals.css';
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
@@ -41,8 +57,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col">
+    <html
+      lang="pl"
+      suppressHydrationWarning
+      className={`${cormorant.variable} ${dmSans.variable}`}
+    >
+      <body className="min-h-screen flex flex-col font-sans">
         <AuthProvider>
           <CalmModeProvider>
             <Header />

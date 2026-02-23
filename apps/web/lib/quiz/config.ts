@@ -8,6 +8,7 @@
 export type QuizQuestion = {
   id: string; // q1–q10
   text: string;
+  helpText?: string;
   options: { value: number; label: string }[];
 };
 

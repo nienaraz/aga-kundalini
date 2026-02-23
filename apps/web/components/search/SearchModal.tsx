@@ -17,10 +17,10 @@ type SearchResult = {
 type SearchIndexItem = SearchResult;
 
 const typeLabels: Record<string, string> = {
-  article: 'Artykuly',
+  article: 'Artykuły',
   practice: 'Praktyki',
-  path: 'Sciezki',
-  glossary: 'Slownik',
+  path: 'Ścieżki',
+  glossary: 'Słownik',
 };
 
 function getResultHref(result: SearchResult): string {
@@ -46,10 +46,8 @@ export function SearchModal() {
   const [engine, setEngine] = useState<MiniSearch<SearchIndexItem> | null>(null);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
 
-  // Load search index on first open
   const loadIndex = useCallback(async () => {
     if (engine) return;
     setLoading(true);
@@ -59,11 +57,7 @@ export function SearchModal() {
       const ms = new MiniSearch<SearchIndexItem>({
         fields: ['title', 'description', 'tags'],
         storeFields: ['title', 'description', 'type', 'category', 'slug', 'tags'],
-        searchOptions: {
-          boost: { title: 3, tags: 2 },
-          fuzzy: 0.2,
-          prefix: true,
-        },
+        searchOptions: { boost: { title: 3, tags: 2 }, fuzzy: 0.2, prefix: true },
       });
       ms.addAll(data);
       setEngine(ms);
@@ -74,7 +68,6 @@ export function SearchModal() {
     }
   }, [engine]);
 
-  // Open/close
   const open = useCallback(() => {
     setIsOpen(true);
     setQuery('');
@@ -88,76 +81,47 @@ export function SearchModal() {
     setResults([]);
   }, []);
 
-  // Listen for Cmd+K and custom event
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        open();
-      }
-      if (e.key === 'Escape' && isOpen) {
-        close();
-      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); open(); }
+      if (e.key === 'Escape' && isOpen) { close(); }
     }
-
-    function handleCustomOpen() {
-      open();
-    }
-
+    function handleCustomOpen() { open(); }
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('open-search', handleCustomOpen);
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('open-search', handleCustomOpen);
     };
   }, [isOpen, open, close]);
 
-  // Focus input when opened
   useEffect(() => {
     if (isOpen) {
       loadIndex();
-      // Small delay for dialog to render
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [isOpen, loadIndex]);
 
-  // Search
   useEffect(() => {
-    if (!engine || !query.trim()) {
-      setResults([]);
-      setActiveIndex(0);
-      return;
-    }
+    if (!engine || !query.trim()) { setResults([]); setActiveIndex(0); return; }
     const found = engine.search(query) as unknown as SearchResult[];
     setResults(found.slice(0, 20));
     setActiveIndex(0);
   }, [query, engine]);
 
-  // Keyboard navigation
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex((prev) => Math.min(prev + 1, results.length - 1));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex((prev) => Math.max(prev - 1, 0));
-    } else if (e.key === 'Enter' && results[activeIndex]) {
-      close();
-    }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActiveIndex((prev) => Math.min(prev + 1, results.length - 1)); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActiveIndex((prev) => Math.max(prev - 1, 0)); }
+    else if (e.key === 'Enter' && results[activeIndex]) { close(); }
   }
 
-  // Scroll active result into view
   useEffect(() => {
     const container = resultsRef.current;
     if (!container) return;
     const activeEl = container.querySelector(`[data-index="${activeIndex}"]`);
-    if (activeEl) {
-      activeEl.scrollIntoView({ block: 'nearest' });
-    }
+    if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
   }, [activeIndex]);
 
-  // Group results by type
   const grouped = results.reduce<Record<string, SearchResult[]>>((acc, r) => {
     const type = r.type || 'article';
     if (!acc[type]) acc[type] = [];
@@ -171,35 +135,23 @@ export function SearchModal() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh]"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) close();
-      }}
+      className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh]"
+      onClick={(e) => { if (e.target === e.currentTarget) close(); }}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-earth-900/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-earth-950/30 backdrop-blur-sm" />
 
       {/* Dialog */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Szukaj"
-        className="relative w-full max-w-lg mx-4 bg-white rounded-xl shadow-2xl border border-warm-200 overflow-hidden"
+        className="relative w-full max-w-lg mx-4 bg-white rounded-3xl shadow-soft-lg border border-warm-200/60 overflow-hidden animate-slide-down"
       >
         {/* Search input */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-warm-100">
-          <svg
-            className="w-5 h-5 text-earth-400 shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-warm-100">
+          <svg className="w-5 h-5 text-earth-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
           </svg>
           <input
             ref={inputRef}
@@ -208,29 +160,29 @@ export function SearchModal() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Szukaj..."
-            className="flex-1 text-sm text-earth-800 placeholder-earth-400 bg-transparent outline-none"
+            className="flex-1 text-body-base text-earth-900 placeholder-earth-400 bg-transparent outline-none"
             autoComplete="off"
           />
           <button
             type="button"
             onClick={close}
-            className="text-xs text-earth-400 bg-warm-100 px-2 py-0.5 rounded"
+            className="text-xs text-earth-400 bg-warm-100/60 px-2.5 py-1 rounded-lg font-medium"
           >
             ESC
           </button>
         </div>
 
         {/* Results */}
-        <div ref={resultsRef} className="max-h-80 overflow-y-auto">
+        <div ref={resultsRef} className="max-h-[60vh] overflow-y-auto">
           {loading && (
-            <div className="px-4 py-8 text-center text-sm text-earth-400">
-              Ladowanie indeksu...
+            <div className="px-5 py-10 text-center text-body-sm text-earth-400">
+              Ładowanie indeksu...
             </div>
           )}
 
           {!loading && query.trim() && results.length === 0 && (
-            <div className="px-4 py-8 text-center text-sm text-earth-400">
-              Brak wynikow dla &ldquo;{query}&rdquo;
+            <div className="px-5 py-10 text-center text-body-sm text-earth-400">
+              Brak wyników dla &ldquo;{query}&rdquo;
             </div>
           )}
 
@@ -238,7 +190,7 @@ export function SearchModal() {
             <div className="py-2">
               {Object.entries(grouped).map(([type, items]) => (
                 <div key={type}>
-                  <div className="px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-earth-400">
+                  <div className="px-5 py-2 text-xs font-medium uppercase tracking-[0.12em] text-earth-400">
                     {typeLabels[type] || type}
                   </div>
                   {items.map((result) => {
@@ -252,8 +204,8 @@ export function SearchModal() {
                         onClick={close}
                         data-index={idx}
                         className={`
-                          block px-4 py-2.5 text-sm transition-colors
-                          ${isActive ? 'bg-sage-50 text-sage-800' : 'text-earth-700 hover:bg-warm-50'}
+                          block px-5 py-3 mx-2 rounded-2xl text-body-sm transition-colors
+                          ${isActive ? 'bg-sage-50/70 text-sage-800' : 'text-earth-700 hover:bg-warm-50'}
                         `}
                       >
                         <div className="font-medium">{result.title}</div>
@@ -271,8 +223,8 @@ export function SearchModal() {
           )}
 
           {!loading && !query.trim() && (
-            <div className="px-4 py-8 text-center text-sm text-earth-400">
-              Wpisz szukana fraze...
+            <div className="px-5 py-10 text-center text-body-sm text-earth-400">
+              Wpisz szukaną frazę...
             </div>
           )}
         </div>

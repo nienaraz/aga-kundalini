@@ -25,13 +25,7 @@ const durationOptions = [
   { label: '20+ min', value: [20, 999] as [number, number] },
 ];
 
-export function FilterBar({
-  categories,
-  tags,
-  onFilter,
-  showDuration = false,
-  showIntensity = false,
-}: FilterBarProps) {
+export function FilterBar({ categories, tags, onFilter, showDuration = false, showIntensity = false }: FilterBarProps) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [durationRange, setDurationRange] = useState<[number, number]>([0, 999]);
@@ -39,19 +33,13 @@ export function FilterBar({
   const [tagsOpen, setTagsOpen] = useState(false);
 
   const emitFilter = useCallback(
-    (updates: Partial<{
-      category: string;
-      tags: string[];
-      durationRange: [number, number];
-      intensity: number;
-    }>) => {
-      const next: FilterState = {
+    (updates: Partial<{ category: string; tags: string[]; durationRange: [number, number]; intensity: number }>) => {
+      onFilter({
         category: updates.category ?? selectedCategory,
         tags: updates.tags ?? selectedTags,
         durationRange: updates.durationRange ?? durationRange,
         intensity: updates.intensity ?? intensity,
-      };
-      onFilter(next);
+      });
     },
     [selectedCategory, selectedTags, durationRange, intensity, onFilter]
   );
@@ -63,9 +51,7 @@ export function FilterBar({
   }
 
   function handleTagToggle(tag: string) {
-    const next = selectedTags.includes(tag)
-      ? selectedTags.filter((t) => t !== tag)
-      : [...selectedTags, tag];
+    const next = selectedTags.includes(tag) ? selectedTags.filter((t) => t !== tag) : [...selectedTags, tag];
     setSelectedTags(next);
     emitFilter({ tags: next });
   }
@@ -81,24 +67,21 @@ export function FilterBar({
     emitFilter({ intensity: next });
   }
 
+  const pillBase = "px-4 py-2 rounded-2xl text-body-sm transition-colors duration-200";
+  const pillActive = "bg-sage-600 text-white shadow-soft";
+  const pillInactive = "bg-warm-100/60 text-earth-600 hover:bg-warm-200/60";
+
   return (
-    <div className="space-y-4 mb-8">
+    <div className="space-y-4 mb-10">
       {/* Category pills */}
-      <div className="flex flex-wrap gap-2">
-        <span className="text-xs font-medium text-earth-500 self-center mr-1">Kategoria:</span>
+      <div className="flex flex-wrap gap-2 items-center">
+        <span className="text-xs font-medium uppercase tracking-[0.12em] text-earth-400 mr-1">Kategoria:</span>
         {categories.map((cat) => (
           <button
             key={cat}
             type="button"
             onClick={() => handleCategoryChange(cat)}
-            className={`
-              px-3 py-1.5 rounded-full text-sm transition-colors
-              ${
-                selectedCategory === cat
-                  ? 'bg-sage-600 text-white'
-                  : 'bg-warm-100 text-earth-600 hover:bg-warm-200'
-              }
-            `}
+            className={`${pillBase} ${selectedCategory === cat ? pillActive : pillInactive}`}
           >
             {cat}
           </button>
@@ -111,32 +94,21 @@ export function FilterBar({
           <button
             type="button"
             onClick={() => setTagsOpen((v) => !v)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm bg-warm-100 text-earth-600 hover:bg-warm-200 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-2xl text-body-sm bg-warm-100/60 text-earth-600 hover:bg-warm-200/60 transition-colors"
           >
             Tagi
             {selectedTags.length > 0 && (
-              <span className="bg-sage-600 text-white text-xs px-1.5 py-0.5 rounded-full">
-                {selectedTags.length}
-              </span>
+              <span className="bg-sage-600 text-white text-xs px-2 py-0.5 rounded-full">{selectedTags.length}</span>
             )}
-            <svg
-              className={`w-4 h-4 transition-transform ${tagsOpen ? 'rotate-180' : ''}`}
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
+            <svg className={`w-3.5 h-3.5 transition-transform ${tagsOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
             </svg>
           </button>
 
           {tagsOpen && (
-            <div className="absolute top-full mt-1 left-0 z-10 bg-white border border-warm-200 rounded-lg shadow-lg p-3 min-w-48 max-h-60 overflow-y-auto">
+            <div className="absolute top-full mt-2 left-0 z-10 bg-white border border-warm-200/60 rounded-3xl shadow-soft-lg p-4 min-w-48 max-h-60 overflow-y-auto">
               {tags.map((tag) => (
-                <label
-                  key={tag}
-                  className="flex items-center gap-2 py-1 px-1 text-sm text-earth-700 hover:bg-warm-50 rounded cursor-pointer"
-                >
+                <label key={tag} className="flex items-center gap-2.5 py-1.5 px-2 text-body-sm text-earth-700 hover:bg-warm-50 rounded-xl cursor-pointer">
                   <input
                     type="checkbox"
                     checked={selectedTags.includes(tag)}
@@ -153,21 +125,14 @@ export function FilterBar({
 
       {/* Duration filter */}
       {showDuration && (
-        <div className="flex flex-wrap gap-2">
-          <span className="text-xs font-medium text-earth-500 self-center mr-1">Czas trwania:</span>
+        <div className="flex flex-wrap gap-2 items-center">
+          <span className="text-xs font-medium uppercase tracking-[0.12em] text-earth-400 mr-1">Czas:</span>
           {durationOptions.map((opt) => (
             <button
               key={opt.label}
               type="button"
               onClick={() => handleDurationChange(opt.value)}
-              className={`
-                px-3 py-1.5 rounded-full text-sm transition-colors
-                ${
-                  durationRange[0] === opt.value[0] && durationRange[1] === opt.value[1]
-                    ? 'bg-sage-600 text-white'
-                    : 'bg-warm-100 text-earth-600 hover:bg-warm-200'
-                }
-              `}
+              className={`${pillBase} ${durationRange[0] === opt.value[0] && durationRange[1] === opt.value[1] ? pillActive : pillInactive}`}
             >
               {opt.label}
             </button>
@@ -178,21 +143,14 @@ export function FilterBar({
       {/* Intensity filter */}
       {showIntensity && (
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-earth-500 mr-1">Intensywnosc:</span>
+          <span className="text-xs font-medium uppercase tracking-[0.12em] text-earth-400 mr-1">Intensywność:</span>
           {[1, 2, 3, 4, 5].map((level) => (
             <button
               key={level}
               type="button"
               onClick={() => handleIntensityChange(level)}
-              aria-label={`Intensywnosc ${level}`}
-              className={`
-                w-7 h-7 rounded-full text-xs font-medium transition-colors
-                ${
-                  intensity === level
-                    ? 'bg-sage-600 text-white'
-                    : 'bg-warm-100 text-earth-600 hover:bg-warm-200'
-                }
-              `}
+              aria-label={`Intensywność ${level}`}
+              className={`w-8 h-8 rounded-xl text-xs font-medium transition-colors ${intensity === level ? 'bg-sage-600 text-white' : 'bg-warm-100/60 text-earth-600 hover:bg-warm-200/60'}`}
             >
               {level}
             </button>

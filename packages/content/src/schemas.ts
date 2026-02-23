@@ -6,11 +6,11 @@ const baseSchema = z.object({
   slug: z.string().min(1),
   description: z.string().min(10).max(300),
   tags: z.array(z.string()).min(1),
-  category: z.string(),
+  category: z.string().optional().default(''),
   publishedAt: z.string().datetime({ offset: true }).or(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)),
   updatedAt: z.string().datetime({ offset: true }).or(z.string().regex(/^\d{4}-\d{2}-\d{2}$/)).optional(),
-  featured: z.boolean().default(false),
-  draft: z.boolean().default(false),
+  featured: z.coerce.boolean().default(false),
+  draft: z.coerce.boolean().default(false),
   image: z.string().optional(),
   imageAlt: z.string().optional(),
 });
@@ -19,48 +19,70 @@ const baseSchema = z.object({
 export const articleSchema = baseSchema.extend({
   type: z.literal('article').default('article'),
   keyTakeaways: z.array(z.string()).min(1).max(7),
-  somaticCues: z.array(z.string()).optional(), // np. "Zwróć uwagę na napięcie w szczęce"
+  somaticCues: z.array(z.string()).optional(),
   difficulty: z.enum(['podstawowy', 'średni', 'zaawansowany']).default('podstawowy'),
-  relatedPractices: z.array(z.string()).optional(), // slugi powiązanych praktyk
+  relatedPractices: z.array(z.string()).optional(),
 });
 
 // Praktyka (oddechowa, ruchowa, medytacja, reset)
+// Step schema accepts both naming conventions from content files
+const stepSchema = z.object({
+  order: z.coerce.number(),
+  // Accept either 'instruction' or 'title'+'description' for the step text
+  instruction: z.string().optional(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  durationSec: z.coerce.number().optional(),
+  durationSeconds: z.coerce.number().optional(),
+  note: z.string().optional(),
+}).transform((step) => ({
+  order: step.order,
+  instruction: step.instruction || step.description || step.title || '',
+  title: step.title,
+  durationSec: step.durationSec ?? step.durationSeconds,
+  note: step.note,
+}));
+
 export const practiceSchema = baseSchema.extend({
   type: z.literal('practice').default('practice'),
-  durationMin: z.number().min(1).max(120),
-  intensity: z.number().min(1).max(5),
+  durationMin: z.coerce.number().min(1).max(120).optional(),
+  duration: z.coerce.number().optional(),
+  intensity: z.coerce.number().min(1).max(5),
   prerequisites: z.array(z.string()).optional(),
   contraindications: z.array(z.string()).optional(),
-  steps: z.array(z.object({
-    order: z.number(),
-    instruction: z.string(),
-    durationSec: z.number().optional(),
-    note: z.string().optional(),
-  })).min(1),
+  steps: z.array(stepSchema).min(1),
   variations: z.array(z.object({
     name: z.string(),
     description: z.string(),
     forWhom: z.string().optional(),
   })).optional(),
-  cuesToNotice: z.array(z.string()).min(1), // "co obserwować podczas praktyki"
-  safetyNotes: z.string().optional(),
+  cuesToNotice: z.array(z.string()).min(1),
+  safetyNotes: z.union([z.string(), z.array(z.string())]).optional(),
   practiceCategory: z.enum(['oddech', 'ruch', 'medytacja', 'reset']),
-});
+}).transform((p) => ({
+  ...p,
+  durationMin: p.durationMin ?? p.duration ?? 10,
+  safetyNotes: Array.isArray(p.safetyNotes)
+    ? p.safetyNotes.join(' ')
+    : p.safetyNotes,
+}));
 
 // Ścieżka (program wielodniowy)
 export const pathSchema = baseSchema.extend({
   type: z.literal('path').default('path'),
   days: z.array(z.object({
-    dayNumber: z.number(),
+    dayNumber: z.coerce.number(),
     title: z.string(),
     description: z.string(),
-    contentRefs: z.array(z.string()), // slugi artykułów/praktyk
-    estimatedTimeMin: z.number(),
+    contentRefs: z.array(z.string()),
+    estimatedTimeMin: z.coerce.number(),
   })).min(3),
   goal: z.string(),
   prerequisites: z.array(z.string()).optional(),
   contraindications: z.array(z.string()).optional(),
-  totalDays: z.number(),
+  safetyNotes: z.union([z.string(), z.array(z.string())]).optional(),
+  totalDays: z.coerce.number(),
+  difficulty: z.string().optional(),
 });
 
 // Termin słownikowy
@@ -80,13 +102,13 @@ export const newsletterSchema = z.object({
   slug: z.string().min(1),
   description: z.string(),
   publishedAt: z.string(),
-  issueNumber: z.number(),
-  draft: z.boolean().default(false),
+  issueNumber: z.coerce.number(),
+  draft: z.coerce.boolean().default(false),
 });
 
 // Typy wyeksportowane
 export type Article = z.infer<typeof articleSchema>;
-export type Practice = z.infer<typeof practiceSchema>;
+export type Practice = z.output<typeof practiceSchema>;
 export type Path = z.infer<typeof pathSchema>;
 export type GlossaryTerm = z.infer<typeof glossaryTermSchema>;
 export type NewsletterIssue = z.infer<typeof newsletterSchema>;

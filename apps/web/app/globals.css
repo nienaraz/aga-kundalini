@@ -2,18 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------ */
+/* Google Fonts — Cormorant Garamond (serif) + DM Sans (body)          */
+/* ------------------------------------------------------------------ */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
+
 @layer base {
   :root {
-    --color-bg: theme('colors.warm.50');
-    --color-text: theme('colors.earth.900');
-    --color-muted: theme('colors.earth.500');
-    --color-accent: theme('colors.sage.600');
-    --color-accent-light: theme('colors.sage.100');
-    --color-border: theme('colors.warm.200');
-    --color-card: theme('colors.white');
-    --color-card-hover: theme('colors.warm.100');
+    --color-bg: #faf7f2;
+    --color-bg-warm: #f5f0e8;
+    --color-text: #3a2a22;
+    --color-text-muted: #97735d;
+    --color-accent: #57724c;
+    --color-accent-light: #e8ede4;
+    --color-accent-hover: #465c3e;
+    --color-border: #ebe4d6;
+    --color-border-light: #f5f0e8;
+    --color-card: #ffffff;
+    --color-card-hover: #faf7f2;
+    --color-gold: #e7b243;
 
-    --radius: 0.75rem;
+    --radius-sm: 0.75rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2rem;
   }
 
   html {
@@ -22,10 +34,15 @@
   }
 
   body {
-    @apply bg-warm-50 text-earth-900 font-sans leading-relaxed;
+    @apply bg-[var(--color-bg)] text-earth-950 font-sans leading-relaxed;
   }
 
-  /* Tryb spokojny – większa czcionka, więcej przestrzeni */
+  /* Headings — editorial serif */
+  h1, h2, h3, h4 {
+    @apply font-serif;
+  }
+
+  /* Calm mode */
   body.calm-mode {
     @apply text-calm-body;
   }
@@ -34,59 +51,148 @@
   body.calm-mode h3 { @apply text-2xl md:text-3xl; }
   body.calm-mode .content-container { @apply max-w-3xl px-8; }
 
-  /* Focus widoczny dla klawiatury */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-sage-500 rounded-sm;
+    @apply outline-2 outline-offset-2 outline-sage-600 rounded-sm;
   }
 
-  /* Selekcja */
   ::selection {
-    @apply bg-sage-200 text-earth-900;
+    @apply bg-sage-200/60 text-earth-950;
   }
 }
 
 @layer components {
+  /* ---------- Layout containers ---------- */
   .content-container {
-    @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-6xl mx-auto px-5 sm:px-8 lg:px-10;
+  }
+
+  .content-container-sm {
+    @apply max-w-4xl mx-auto px-5 sm:px-8 lg:px-10;
+  }
+
+  .content-container-xs {
+    @apply max-w-2xl mx-auto px-5 sm:px-8;
   }
 
   .section-spacing {
-    @apply py-12 md:py-16 lg:py-20;
+    @apply py-16 md:py-20 lg:py-28;
   }
 
-  /* MDX prose */
+  .section-spacing-sm {
+    @apply py-10 md:py-14 lg:py-[4.5rem];
+  }
+
+  /* ---------- Bento grid ---------- */
+  .bento-grid {
+    @apply grid gap-4 md:gap-5;
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  .bento-card {
+    @apply rounded-3xl p-6 md:p-8 transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
+  }
+
+  .bento-card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-0.5;
+  }
+
+  /* ---------- MDX prose ---------- */
   .prose-custom {
     @apply leading-relaxed;
   }
   .prose-custom h2 {
-    @apply font-serif text-2xl md:text-3xl text-earth-800 mt-12 mb-4 scroll-mt-20;
+    @apply font-serif text-heading-lg text-earth-900 mt-14 mb-5 scroll-mt-24;
   }
   .prose-custom h3 {
-    @apply font-serif text-xl md:text-2xl text-earth-700 mt-8 mb-3 scroll-mt-20;
+    @apply font-serif text-heading-base text-earth-800 mt-10 mb-4 scroll-mt-24;
+  }
+  .prose-custom h4 {
+    @apply font-serif text-heading-sm text-earth-700 mt-8 mb-3 scroll-mt-24;
   }
   .prose-custom p {
-    @apply mb-6 text-earth-800 leading-relaxed;
+    @apply mb-6 text-earth-800 leading-relaxed text-body-base;
   }
   .prose-custom ul {
     @apply mb-6 pl-6 space-y-2;
   }
   .prose-custom li {
-    @apply text-earth-700;
+    @apply text-earth-700 text-body-base;
+  }
+  .prose-custom ol {
+    @apply mb-6 pl-6 space-y-2 list-decimal;
   }
   .prose-custom blockquote {
-    @apply border-l-4 border-sage-300 pl-4 italic text-earth-600 my-6;
+    @apply border-l-4 border-sage-300 pl-5 py-1 italic text-earth-600 my-8
+           bg-sage-50/40 rounded-r-2xl;
   }
   .prose-custom strong {
-    @apply text-earth-900 font-semibold;
+    @apply text-earth-950 font-semibold;
   }
   .prose-custom a {
-    @apply text-sage-600 underline underline-offset-2 hover:text-sage-700 transition-colors;
+    @apply text-sage-700 underline underline-offset-4 decoration-sage-300
+           hover:text-sage-800 hover:decoration-sage-500 transition-colors;
   }
 
-  /* Karty – spokojny hover */
+  /* ---------- Card variants ---------- */
   .card-calm {
-    @apply rounded-xl border border-warm-200 bg-white p-6
-           transition-all duration-300 ease-out
-           hover:shadow-md hover:border-sage-200;
+    @apply rounded-3xl border border-warm-200/60 bg-white p-6 md:p-7
+           shadow-bento
+           transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+           hover:shadow-card hover:border-warm-300/60;
+  }
+
+  .card-sage {
+    @apply rounded-3xl bg-sage-100/60 border border-sage-200/40 p-6 md:p-7
+           transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
+  }
+
+  .card-warm {
+    @apply rounded-3xl bg-warm-100/60 border border-warm-200/40 p-6 md:p-7
+           transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
+  }
+
+  .card-gold {
+    @apply rounded-3xl bg-gold-50 border border-gold-200/40 p-6 md:p-7
+           transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
+  }
+
+  /* ---------- Image placeholders ---------- */
+  .img-placeholder {
+    @apply rounded-3xl bg-warm-200/50 overflow-hidden
+           flex items-center justify-center;
+  }
+
+  .img-placeholder-sage {
+    @apply rounded-3xl bg-sage-100/60 overflow-hidden
+           flex items-center justify-center;
+  }
+
+  /* ---------- Decorative organic shapes ---------- */
+  .organic-blob {
+    @apply absolute rounded-full blur-3xl opacity-20 pointer-events-none;
+  }
+
+  /* ---------- Section divider ---------- */
+  .section-divider {
+    @apply border-t border-warm-200/60 my-0;
+  }
+
+  /* ---------- Editorial labels ---------- */
+  .label-editorial {
+    @apply text-xs font-medium uppercase tracking-[0.15em] text-sage-600;
+  }
+
+  .label-editorial-pill {
+    @apply inline-flex items-center text-xs font-medium uppercase tracking-[0.12em]
+           text-sage-700 bg-sage-100/70 px-3.5 py-1.5 rounded-full;
+  }
+}
+
+@layer utilities {
+  .img-reveal {
+    @apply opacity-0 transition-opacity duration-[600ms];
+  }
+  .img-reveal[data-loaded="true"] {
+    @apply opacity-100;
   }
 }

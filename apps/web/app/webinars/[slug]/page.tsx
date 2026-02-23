@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { getWebinarBySlug, getSignupCount } from '@/lib/webinar';
 import WebinarSignupForm from '@/components/webinar/WebinarSignupForm';
 
+export const dynamic = 'force-dynamic';
+
 /* ------------------------------------------------------------------ */
 /*  /webinars/[slug] – Webinar detail page                              */
 /* ------------------------------------------------------------------ */

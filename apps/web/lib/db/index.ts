@@ -1,4 +1,4 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { drizzle, type BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 import { existsSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
@@ -6,18 +6,27 @@ import * as schema from './schema';
 
 const dbPath = process.env.DATABASE_URL || './data/local.db';
 
-// Ensure the directory for the database file exists
-const dir = dirname(dbPath);
-if (!existsSync(dir)) {
-  mkdirSync(dir, { recursive: true });
+let _db: BetterSQLite3Database<typeof schema> | null = null;
+
+function getDb(): BetterSQLite3Database<typeof schema> {
+  if (!_db) {
+    const dir = dirname(dbPath);
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    const sqlite = new Database(dbPath);
+    sqlite.pragma('journal_mode = WAL');
+    sqlite.pragma('foreign_keys = ON');
+    _db = drizzle(sqlite, { schema });
+  }
+  return _db;
 }
 
-const sqlite = new Database(dbPath);
-
-// Enable WAL mode for better concurrent read performance
-sqlite.pragma('journal_mode = WAL');
-// Enable foreign key enforcement
-sqlite.pragma('foreign_keys = ON');
-
-export const db = drizzle(sqlite, { schema });
-export { sqlite };
+// Lazy proxy so importing this module doesn't open a connection at module load time.
+// This prevents "database is locked" errors during Next.js build when multiple
+// routes are compiled concurrently.
+export const db = new Proxy({} as BetterSQLite3Database<typeof schema>, {
+  get(_, prop) {
+    return (getDb() as any)[prop];
+  },
+});

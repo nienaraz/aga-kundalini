@@ -1,4 +1,4 @@
-import { db, sqlite } from './index';
+import { db } from './index';
 import { users, webinarEvents } from './schema';
 import { eq } from 'drizzle-orm';
 
@@ -72,7 +72,6 @@ async function seed() {
   }
 
   console.log('[seed] Seed complete.');
-  sqlite.close();
 }
 
 seed().catch((err) => {
