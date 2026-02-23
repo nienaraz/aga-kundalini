@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: '%s | Aga · Joga Kundalini',
   },
   description:
-    'Edukacja o układzie nerwowym, praktyki regulacji i joga kundalini. Świadome odpowiadanie zamiast reaktywności.',
+    'Społeczność regulacji. Praktyka odpowiedzi. Edukacja o układzie nerwowym, praktyki oddechowe i ruchowe inspirowane jogą kundalini.',
   keywords: [
     'joga kundalini',
     'układ nerwowy',

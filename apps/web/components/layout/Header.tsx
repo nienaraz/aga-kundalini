@@ -61,18 +61,6 @@ export function Header() {
                 </svg>
               </button>
 
-              {/* Account */}
-              <Link
-                href="/account"
-                aria-label="Konto"
-                title="Konto"
-                className="p-2.5 rounded-2xl text-earth-500 hover:text-sage-700 hover:bg-warm-100 transition-colors"
-              >
-                <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-              </Link>
-
               {/* Mobile hamburger */}
               <button
                 type="button"

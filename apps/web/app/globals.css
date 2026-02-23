@@ -9,18 +9,19 @@
 
 @layer base {
   :root {
-    --color-bg: #faf7f2;
-    --color-bg-warm: #f5f0e8;
-    --color-text: #3a2a22;
-    --color-text-muted: #97735d;
-    --color-accent: #57724c;
-    --color-accent-light: #e8ede4;
-    --color-accent-hover: #465c3e;
-    --color-border: #ebe4d6;
-    --color-border-light: #f5f0e8;
+    --color-bg: #f5f5f7;
+    --color-bg-warm: #eeeeee;
+    --color-text: #0f0f0f;
+    --color-text-muted: #525252;
+    --color-accent: #4361ee;
+    --color-accent-light: #dbe4fe;
+    --color-accent-hover: #2b3df6;
+    --color-border: #e4e4e4;
+    --color-border-light: #f0f0f0;
     --color-card: #ffffff;
-    --color-card-hover: #faf7f2;
-    --color-gold: #e7b243;
+    --color-card-hover: #fafafa;
+    --color-blue: #4361ee;
+    --color-blue-light: #eef2ff;
 
     --radius-sm: 0.75rem;
     --radius-md: 1rem;
@@ -52,7 +53,7 @@
   body.calm-mode .content-container { @apply max-w-3xl px-8; }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-sage-600 rounded-sm;
+    @apply outline-2 outline-offset-2 outline-sage-500 rounded-sm;
   }
 
   ::selection {
@@ -122,32 +123,39 @@
     @apply mb-6 pl-6 space-y-2 list-decimal;
   }
   .prose-custom blockquote {
-    @apply border-l-4 border-sage-300 pl-5 py-1 italic text-earth-600 my-8
+    @apply border-l-4 border-sage-400 pl-5 py-1 italic text-earth-600 my-8
            bg-sage-50/40 rounded-r-2xl;
   }
   .prose-custom strong {
     @apply text-earth-950 font-semibold;
   }
   .prose-custom a {
-    @apply text-sage-700 underline underline-offset-4 decoration-sage-300
-           hover:text-sage-800 hover:decoration-sage-500 transition-colors;
+    @apply text-sage-600 underline underline-offset-4 decoration-sage-300
+           hover:text-sage-700 hover:decoration-sage-500 transition-colors;
   }
 
   /* ---------- Card variants ---------- */
   .card-calm {
-    @apply rounded-3xl border border-warm-200/60 bg-white p-6 md:p-7
+    @apply rounded-3xl border border-warm-200 bg-white p-6 md:p-7
            shadow-bento
            transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
-           hover:shadow-card hover:border-warm-300/60;
+           hover:shadow-card hover:border-warm-300;
   }
 
   .card-sage {
-    @apply rounded-3xl bg-sage-100/60 border border-sage-200/40 p-6 md:p-7
+    @apply rounded-3xl bg-sage-50 border border-sage-200/40 p-6 md:p-7
            transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
   }
 
+  .card-blue {
+    @apply rounded-3xl bg-sage-500 text-white p-6 md:p-7
+           shadow-blue
+           transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]
+           hover:shadow-blue-lg hover:bg-sage-600;
+  }
+
   .card-warm {
-    @apply rounded-3xl bg-warm-100/60 border border-warm-200/40 p-6 md:p-7
+    @apply rounded-3xl bg-warm-100 border border-warm-200 p-6 md:p-7
            transition-all duration-[400ms] ease-[cubic-bezier(0.25,0.1,0.25,1)];
   }
 
@@ -158,12 +166,12 @@
 
   /* ---------- Image placeholders ---------- */
   .img-placeholder {
-    @apply rounded-3xl bg-warm-200/50 overflow-hidden
+    @apply rounded-3xl bg-warm-200 overflow-hidden
            flex items-center justify-center;
   }
 
   .img-placeholder-sage {
-    @apply rounded-3xl bg-sage-100/60 overflow-hidden
+    @apply rounded-3xl bg-sage-100 overflow-hidden
            flex items-center justify-center;
   }
 
@@ -174,17 +182,83 @@
 
   /* ---------- Section divider ---------- */
   .section-divider {
-    @apply border-t border-warm-200/60 my-0;
+    @apply border-t border-warm-200 my-0;
   }
 
   /* ---------- Editorial labels ---------- */
   .label-editorial {
-    @apply text-xs font-medium uppercase tracking-[0.15em] text-sage-600;
+    @apply text-xs font-medium uppercase tracking-[0.15em] text-sage-500;
   }
 
   .label-editorial-pill {
     @apply inline-flex items-center text-xs font-medium uppercase tracking-[0.12em]
-           text-sage-700 bg-sage-100/70 px-3.5 py-1.5 rounded-full;
+           text-sage-600 bg-sage-50 px-3.5 py-1.5 rounded-full border border-sage-200/50;
+  }
+
+  /* ---------- Blue hero section ---------- */
+  .hero-blue {
+    @apply bg-sage-500 text-white;
+  }
+  .hero-blue .label-editorial-pill {
+    @apply text-white/90 bg-white/15 border-white/20;
+  }
+  .hero-blue .label-editorial {
+    @apply text-white/80;
+  }
+
+  /* ---------- Scroll-triggered animations ---------- */
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-6;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .animate-on-scroll.is-visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  /* Stagger children */
+  .stagger-children > * {
+    @apply opacity-0 translate-y-4;
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  .stagger-children.is-visible > *:nth-child(1) { transition-delay: 0ms; @apply opacity-100 translate-y-0; }
+  .stagger-children.is-visible > *:nth-child(2) { transition-delay: 100ms; @apply opacity-100 translate-y-0; }
+  .stagger-children.is-visible > *:nth-child(3) { transition-delay: 200ms; @apply opacity-100 translate-y-0; }
+  .stagger-children.is-visible > *:nth-child(4) { transition-delay: 300ms; @apply opacity-100 translate-y-0; }
+  .stagger-children.is-visible > *:nth-child(5) { transition-delay: 400ms; @apply opacity-100 translate-y-0; }
+  .stagger-children.is-visible > *:nth-child(6) { transition-delay: 500ms; @apply opacity-100 translate-y-0; }
+
+  /* ---------- Marquee ---------- */
+  .marquee-track {
+    @apply flex gap-8 whitespace-nowrap;
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ---------- Geometric decorations (inspired by images) ---------- */
+  .geo-grid {
+    background-image:
+      linear-gradient(rgba(67, 97, 238, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(67, 97, 238, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .geo-dots {
+    background-image: radial-gradient(rgba(67, 97, 238, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Checkerboard pattern from inspiration */
+  .checkerboard {
+    background-image:
+      linear-gradient(45deg, var(--color-blue) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--color-blue) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--color-blue) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--color-blue) 75%);
+    background-size: 60px 60px;
+    background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+    opacity: 0.08;
   }
 }
 
@@ -194,5 +268,19 @@
   }
   .img-reveal[data-loaded="true"] {
     @apply opacity-100;
+  }
+
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+
+  .glass-blue {
+    @apply bg-sage-500/80 backdrop-blur-xl border border-sage-400/20;
+  }
+
+  /* Text gradient */
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-sage-600 via-sage-500 to-sage-400;
   }
 }

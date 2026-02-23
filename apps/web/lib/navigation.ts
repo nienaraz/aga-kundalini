@@ -32,12 +32,11 @@ export const mainNavigation: NavItem[] = [
   { label: 'Ścieżki', href: '/paths' },
   { label: 'Narzędzia', href: '/tools' },
   { label: 'Video', href: '/video' },
-  { label: 'Webinary', href: '/webinars' },
 ];
 
 export const secondaryNavigation: NavItem[] = [
+  { label: 'Społeczność', href: '/community' },
   { label: 'O mnie', href: '/about' },
-  { label: 'Zasoby', href: '/resources' },
   { label: 'Newsletter', href: '/newsletter' },
   { label: 'Kontakt', href: '/about#kontakt' },
 ];
