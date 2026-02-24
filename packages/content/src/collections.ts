@@ -17,12 +17,18 @@ function loadCollection<T>(
 
   const files = getAllMdxFiles(fullDir, recursive);
 
-  return files.map(filePath => {
-    const raw = fs.readFileSync(filePath, 'utf-8');
-    const { data, content } = matter(raw);
-    const parsed = schema.parse(data);
-    return { ...parsed, content, filePath };
-  });
+  const results: (T & { content: string; filePath: string })[] = [];
+  for (const filePath of files) {
+    try {
+      const raw = fs.readFileSync(filePath, 'utf-8');
+      const { data, content } = matter(raw);
+      const parsed = schema.parse(data);
+      results.push({ ...parsed, content, filePath });
+    } catch {
+      // Skip files with parsing errors (YAML, schema validation)
+    }
+  }
+  return results;
 }
 
 function getAllMdxFiles(dir: string, recursive: boolean): string[] {

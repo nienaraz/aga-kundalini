@@ -6,8 +6,16 @@ export const metadata: Metadata = {
   description: 'Slownik pojec zwiazanych z ukladem nerwowym, regulacja i yoga kundalini.',
 };
 
+function loadTerms() {
+  try {
+    return getAllGlossaryTerms();
+  } catch {
+    return [];
+  }
+}
+
 export default function GlossaryPage() {
-  const terms = getAllGlossaryTerms();
+  const terms = loadTerms();
 
   // Group by first letter
   const grouped: Record<string, typeof terms> = {};
