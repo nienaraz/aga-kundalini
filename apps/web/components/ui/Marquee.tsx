@@ -16,7 +16,7 @@ export function Marquee({ items, separator = '·', className = '' }: MarqueeProp
         {track.map((item, i) => (
           <span key={i} className="flex items-center gap-8">
             <span>{item}</span>
-            <span className="text-sage-400 select-none">{separator}</span>
+            <span className="text-cobalt-400 select-none">{separator}</span>
           </span>
         ))}
       </div>

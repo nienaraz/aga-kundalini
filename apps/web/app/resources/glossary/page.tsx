@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { getAllGlossaryTerms } from '@/lib/content';
 
+// Skip static generation — avoids Node 24 timeout bug locally
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Slownik',
   description: 'Slownik pojec zwiazanych z ukladem nerwowym, regulacja i yoga kundalini.',

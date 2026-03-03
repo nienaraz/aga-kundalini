@@ -31,7 +31,7 @@ export default function StartPage() {
           </h2>
           <div className="space-y-5">
             <div className="flex items-start gap-4">
-              <span className="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
+              <span className="w-8 h-8 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
                 1
               </span>
               <div>
@@ -42,7 +42,7 @@ export default function StartPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
+              <span className="w-8 h-8 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
                 2
               </span>
               <div>
@@ -53,7 +53,7 @@ export default function StartPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
+              <span className="w-8 h-8 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
                 3
               </span>
               <div>
@@ -64,7 +64,7 @@ export default function StartPage() {
               </div>
             </div>
             <div className="flex items-start gap-4">
-              <span className="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
+              <span className="w-8 h-8 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-body-sm font-semibold shrink-0 mt-0.5">
                 4
               </span>
               <div>

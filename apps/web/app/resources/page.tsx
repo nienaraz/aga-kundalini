@@ -17,7 +17,16 @@ export default function ResourcesPage() {
           Dodatkowe materialy, ktore pomoga Ci poglebic wiedze.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-3xl">
+          <Link href="/resources/evidence" className="card-calm block group">
+            <h2 className="font-serif text-lg text-earth-800 group-hover:text-sage-700 transition-colors mb-2">
+              Biblioteka dowodow
+            </h2>
+            <p className="text-sm text-earth-600 leading-relaxed">
+              Przeglad badan naukowych stojacych za praktykami — razem z ich ograniczeniami.
+            </p>
+          </Link>
+
           <Link href="/resources/glossary" className="card-calm block group">
             <h2 className="font-serif text-lg text-earth-800 group-hover:text-sage-700 transition-colors mb-2">
               Slownik

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getAllPractices, getPracticeBySlug } from '@/lib/content';
 import { SafetyNotes } from '@/components/content/SafetyNotes';
+import { SafetyGate } from '@/components/safety/SafetyGate';
+import { FastExit } from '@/components/safety/FastExit';
 import { SaveToFavorites } from '@/components/content/SaveToFavorites';
 import { ReadingModeToggle } from '@/components/content/ReadingModeToggle';
 
@@ -56,6 +58,7 @@ export default function PracticeDetailPage({
   ];
 
   return (
+    <SafetyGate>
     <div className="section-spacing">
       <div className="content-container max-w-2xl">
         {/* Header */}
@@ -125,7 +128,7 @@ export default function PracticeDetailPage({
           <ol className="space-y-6">
             {practice.steps.map((step) => (
               <li key={step.order} className="flex gap-4">
-                <span className="w-8 h-8 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-sm font-medium shrink-0 mt-0.5">
+                <span className="w-8 h-8 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-sm font-medium shrink-0 mt-0.5">
                   {step.order}
                 </span>
                 <div className="flex-1">
@@ -197,6 +200,8 @@ export default function PracticeDetailPage({
           </div>
         )}
       </div>
+      <FastExit />
     </div>
+    </SafetyGate>
   );
 }

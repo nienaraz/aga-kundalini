@@ -1,9 +1,18 @@
 import type { MetadataRoute } from 'next';
 import { getAllArticles, getAllPractices, getAllPaths } from '@joga/content';
+import { getDisabledRoutes } from '@joga/config/featureFlags';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const disabledRoutes = getDisabledRoutes();
+
+  function isAllowed(route: string): boolean {
+    return !disabledRoutes.some(
+      (disabled) => route === disabled || route.startsWith(disabled + '/')
+    );
+  }
+
   // ---------------------------------------------------------------------------
   // Static routes
   // ---------------------------------------------------------------------------
@@ -30,12 +39,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tools/trigger-journal',
   ];
 
-  const entries: MetadataRoute.Sitemap = staticRoutes.map((route) => ({
-    url: `${BASE_URL}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === '' ? 'weekly' : 'monthly',
-    priority: route === '' ? 1 : route === '/start' ? 0.9 : 0.7,
-  }));
+  const entries: MetadataRoute.Sitemap = staticRoutes
+    .filter(isAllowed)
+    .map((route) => ({
+      url: `${BASE_URL}${route}`,
+      lastModified: new Date(),
+      changeFrequency: route === '' ? 'weekly' : 'monthly',
+      priority: route === '' ? 1 : route === '/start' ? 0.9 : 0.7,
+    }));
 
   // ---------------------------------------------------------------------------
   // Education category index pages

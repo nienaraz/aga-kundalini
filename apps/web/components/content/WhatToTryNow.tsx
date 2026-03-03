@@ -14,7 +14,7 @@ export function WhatToTryNow({ items }: WhatToTryNowProps) {
       <ol className="space-y-3 list-none">
         {items.map((item, i) => (
           <li key={i} className="flex items-start gap-3.5 text-body-sm text-earth-800 leading-relaxed">
-            <span className="w-7 h-7 rounded-full bg-sage-100/70 text-sage-700 flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">
+            <span className="w-7 h-7 rounded-full bg-cobalt-100/70 text-cobalt-700 flex items-center justify-center text-xs font-semibold shrink-0 mt-0.5">
               {i + 1}
             </span>
             {item}

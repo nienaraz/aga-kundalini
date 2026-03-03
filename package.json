@@ -8,7 +8,10 @@
     "test": "turbo test",
     "format": "prettier --write \"**/*.{ts,tsx,md,mdx,json}\"",
     "validate-content": "turbo validate-content",
-    "generate-search": "turbo generate-search"
+    "generate-search": "turbo generate-search",
+    "audit:copy": "turbo audit:copy",
+    "audit:links": "turbo audit:links",
+    "audit:tags": "turbo audit:tags"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

@@ -4,6 +4,8 @@ export {
   pathSchema,
   glossaryTermSchema,
   newsletterSchema,
+  evidenceSchema,
+  evidenceLevels,
 } from './schemas';
 
 export type {
@@ -12,6 +14,9 @@ export type {
   Path,
   GlossaryTerm,
   NewsletterIssue,
+  Evidence,
+  EvidenceSource,
+  EvidenceLevel,
   ContentType,
 } from './schemas';
 
@@ -21,9 +26,12 @@ export {
   getAllPaths,
   getAllGlossaryTerms,
   getAllNewsletterIssues,
+  getAllEvidence,
   getArticleBySlug,
   getPracticeBySlug,
   getPathBySlug,
+  getEvidenceBySlug,
+  getEvidenceByLevel,
   getArticlesByCategory,
   getPracticesByCategory,
   getAllCategories,

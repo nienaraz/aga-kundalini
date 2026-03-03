@@ -14,8 +14,31 @@ const categoryLabels: Record<string, string> = {
   'uklad-nerwowy': 'Układ nerwowy',
   'reaktywnosc-vs-reakcja': 'Reaktywność vs reakcja',
   'oddech-i-sygnaly-ciala': 'Oddech i ciało',
+  'oddech-i-cialo': 'Oddech i ciało',
   'domkniecie-cyklu-stresu': 'Cykl stresu',
+  'cykl-stresu': 'Cykl stresu',
   'kundalini-podstawy': 'Kundalini',
+};
+
+/* Rotating tag colors — each tag gets a color from this palette */
+const tagColors = [
+  'bg-cobalt-100 text-cobalt-700 border-cobalt-200',
+  'bg-sage-100 text-sage-700 border-sage-200',
+  'bg-amber-50 text-amber-700 border-amber-200',
+  'bg-rose-50 text-rose-700 border-rose-200',
+  'bg-violet-50 text-violet-700 border-violet-200',
+  'bg-teal-50 text-teal-700 border-teal-200',
+];
+
+/* Category accent — colored left bar */
+const categoryAccent: Record<string, string> = {
+  'uklad-nerwowy': 'from-cobalt-500 to-cobalt-400',
+  'reaktywnosc-vs-reakcja': 'from-rose-400 to-orange-400',
+  'oddech-i-sygnaly-ciala': 'from-teal-400 to-sage-400',
+  'oddech-i-cialo': 'from-teal-400 to-sage-400',
+  'domkniecie-cyklu-stresu': 'from-amber-400 to-yellow-400',
+  'cykl-stresu': 'from-amber-400 to-yellow-400',
+  'kundalini-podstawy': 'from-violet-400 to-purple-400',
 };
 
 export function ArticleCard({
@@ -27,19 +50,17 @@ export function ArticleCard({
   readingTime,
   featured,
 }: ArticleCardProps) {
+  const accent = categoryAccent[category] || 'from-cobalt-500 to-cobalt-400';
+
   return (
     <Link
       href={`/library/${category}/${slug}`}
-      className={`card-calm block group ${featured ? 'ring-2 ring-sage-200/60' : ''}`}
+      className={`card-calm block group relative overflow-hidden ${featured ? 'ring-2 ring-cobalt-400/50' : ''}`}
     >
-      {/* Image placeholder */}
-      <div className="img-placeholder-sage aspect-[16/9] rounded-2xl mb-5 flex items-center justify-center">
-        <svg className="w-8 h-8 text-sage-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
-        </svg>
-      </div>
+      {/* Category color bar — left edge */}
+      <div className={`absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b ${accent} rounded-l-2xl`} />
 
-      {/* Meta row */}
+      {/* Category pill */}
       <div className="flex items-center justify-between mb-3">
         <span className="label-editorial-pill text-[10px]">
           {categoryLabels[category] || category}
@@ -59,13 +80,13 @@ export function ArticleCard({
         {description}
       </p>
 
-      {/* Tags */}
+      {/* Tags — colorful */}
       {tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
-          {tags.map((tag) => (
+          {tags.map((tag, i) => (
             <span
               key={tag}
-              className="text-xs text-earth-500 bg-warm-100/60 px-2.5 py-0.5 rounded-full"
+              className={`text-xs font-medium px-2.5 py-0.5 rounded-full border ${tagColors[i % tagColors.length]}`}
             >
               {tag}
             </span>

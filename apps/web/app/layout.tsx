@@ -62,12 +62,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
       className={`${cormorant.variable} ${dmSans.variable}`}
     >
-      <body className="min-h-screen flex flex-col font-sans">
+      <body className="noise-overlay min-h-screen flex flex-col font-sans">
         <AuthProvider>
           <CalmModeProvider>
             <Header />
             <RegulationBar />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 relative">
+              <div className="absolute inset-0 editorial-grid pointer-events-none" />
+              <div className="relative z-10">{children}</div>
+            </main>
             <Footer />
             <SearchModal />
           </CalmModeProvider>

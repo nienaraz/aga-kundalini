@@ -47,6 +47,7 @@ export function getContentUrl(type: ContentType, category: string, slug: string)
     path: '/sciezki',
     glossary: '/zasoby/slownik',
     newsletter: '/newsletter',
+    evidence: '/resources/evidence',
   };
 
   const base = typeToBase[type];

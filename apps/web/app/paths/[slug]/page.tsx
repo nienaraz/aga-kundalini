@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { getAllPaths, getPathBySlug } from '@/lib/content';
 import { SaveToFavorites } from '@/components/content/SaveToFavorites';
 import { SafetyNotes } from '@/components/content/SafetyNotes';
+import { SafetyGate } from '@/components/safety/SafetyGate';
+import { FastExit } from '@/components/safety/FastExit';
 import { PathProgressTracker } from './PathProgressTracker';
 
 export function generateStaticParams() {
@@ -26,6 +28,7 @@ export default function PathDetailPage({ params }: { params: { slug: string } })
   const safetyNotes = path.contraindications || [];
 
   return (
+    <SafetyGate>
     <div className="section-spacing">
       <div className="content-container max-w-2xl">
         {/* Header */}
@@ -114,6 +117,8 @@ export default function PathDetailPage({ params }: { params: { slug: string } })
         {/* Safety notes */}
         {safetyNotes.length > 0 && <SafetyNotes notes={safetyNotes} />}
       </div>
+      <FastExit />
     </div>
+    </SafetyGate>
   );
 }

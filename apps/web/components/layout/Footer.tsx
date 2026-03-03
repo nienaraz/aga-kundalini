@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { footerNavigation } from '@/lib/navigation';
+import { NewsletterForm } from '@/components/ui/NewsletterForm';
 
 export function Footer() {
   return (
@@ -85,7 +86,7 @@ export function Footer() {
             <p className="text-warm-400 text-body-sm mb-5 leading-relaxed">
               Inspiracje o regulacji nerwowej. Bez spamu, raz w&nbsp;tygodniu.
             </p>
-            <FooterNewsletterForm />
+            <NewsletterForm variant="dark" />
           </div>
         </div>
       </div>
@@ -102,43 +103,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterNewsletterForm() {
-  return (
-    <form action="/api/newsletter" method="POST" className="flex flex-col gap-2.5">
-      <label htmlFor="footer-email" className="sr-only">
-        Adres e-mail
-      </label>
-      <input
-        id="footer-email"
-        name="email"
-        type="email"
-        required
-        placeholder="twoj@email.pl"
-        autoComplete="email"
-        className="
-          w-full px-4 py-3 rounded-2xl
-          bg-earth-900 border border-earth-800
-          text-warm-100 placeholder-warm-600
-          text-body-sm
-          focus:outline-none focus:ring-2 focus:ring-sage-600 focus:border-transparent
-          transition-colors
-        "
-      />
-      <button
-        type="submit"
-        className="
-          w-full px-4 py-3 rounded-2xl
-          bg-sage-600 text-white text-body-sm font-medium
-          hover:bg-sage-500 active:bg-sage-700
-          transition-colors
-        "
-      >
-        Zapisz się
-      </button>
-    </form>
   );
 }
 

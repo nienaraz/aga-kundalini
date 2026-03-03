@@ -11,6 +11,9 @@
     "validate-content": "tsx lib/validate-content.ts",
     "generate-search": "tsx lib/generate-search-index.ts",
     "generate-templates": "tsx scripts/generate-templates.ts",
+    "audit:copy": "tsx scripts/audit-copy.ts",
+    "audit:links": "tsx scripts/audit-links.ts",
+    "audit:tags": "tsx scripts/audit-tags.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx lib/db/migrate.ts",
     "db:seed": "tsx lib/db/seed.ts"

@@ -15,7 +15,7 @@ export default function VideoCta({ videoSlug, title, description }: VideoCtaProp
   return (
     <aside
       className="
-        my-8 rounded-xl border border-sage-200 bg-sage-50/50
+        my-8 rounded-xl border border-cobalt-200 bg-cobalt-50/50
         p-5 sm:p-6
       "
     >
@@ -32,13 +32,13 @@ export default function VideoCta({ videoSlug, title, description }: VideoCtaProp
           className="
             shrink-0 mt-0.5
             w-10 h-10 flex items-center justify-center
-            rounded-full bg-sage-100
-            group-hover:bg-sage-200
+            rounded-full bg-cobalt-100
+            group-hover:bg-cobalt-200
             transition-colors duration-200
           "
         >
           <svg
-            className="w-4 h-4 text-sage-600 ml-0.5"
+            className="w-4 h-4 text-cobalt-600 ml-0.5"
             fill="currentColor"
             viewBox="0 0 24 24"
           >
@@ -48,7 +48,7 @@ export default function VideoCta({ videoSlug, title, description }: VideoCtaProp
 
         {/* Text */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs font-medium uppercase tracking-wider text-sage-500 mb-1">
+          <p className="text-xs font-medium uppercase tracking-wider text-cobalt-500 mb-1">
             Obejrzyj powiazany material
           </p>
           <p
@@ -71,7 +71,7 @@ export default function VideoCta({ videoSlug, title, description }: VideoCtaProp
         {/* Arrow */}
         <svg
           className="
-            shrink-0 mt-1 w-5 h-5 text-sage-400
+            shrink-0 mt-1 w-5 h-5 text-cobalt-400
             group-hover:text-sage-600 group-hover:translate-x-0.5
             transition-all duration-200
           "

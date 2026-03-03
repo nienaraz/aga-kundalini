@@ -18,6 +18,9 @@
     "generate-search": {
       "dependsOn": ["^build"],
       "outputs": ["public/search-index.json"]
-    }
+    },
+    "audit:copy": {},
+    "audit:links": {},
+    "audit:tags": {}
   }
 }

@@ -161,15 +161,15 @@ export default function VideoDetailPage({ params }: PageProps) {
             </h2>
             <ul className="space-y-2 text-earth-600 text-sm leading-relaxed">
               <li className="flex items-start gap-2">
-                <span className="text-sage-500 mt-0.5" aria-hidden="true">&#8226;</span>
+                <span className="text-cobalt-500 mt-0.5" aria-hidden="true">&#8226;</span>
                 <span>Obserwuj, jak zmienia sie Twoj oddech w trakcie i po praktyce.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-sage-500 mt-0.5" aria-hidden="true">&#8226;</span>
+                <span className="text-cobalt-500 mt-0.5" aria-hidden="true">&#8226;</span>
                 <span>Zwroc uwage na napieciw ciele -- ramiona, szczeka, brzuch.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-sage-500 mt-0.5" aria-hidden="true">&#8226;</span>
+                <span className="text-cobalt-500 mt-0.5" aria-hidden="true">&#8226;</span>
                 <span>Nie oceniaj swoich odczuc -- po prostu je zauważ.</span>
               </li>
             </ul>

@@ -64,7 +64,7 @@ export default function AboutPage() {
                 className={index % 2 === 0 ? 'card-sage rounded-3xl' : 'card-warm rounded-3xl'}
               >
                 <div className="flex items-start gap-3 mb-2">
-                  <span className="w-7 h-7 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-body-sm font-semibold shrink-0">
+                  <span className="w-7 h-7 rounded-full bg-cobalt-100 text-cobalt-700 flex items-center justify-center text-body-sm font-semibold shrink-0">
                     {index + 1}
                   </span>
                   <h3 className="font-serif text-heading-sm text-earth-950">{value.title}</h3>

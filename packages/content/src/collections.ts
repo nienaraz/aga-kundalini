@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { articleSchema, practiceSchema, pathSchema, glossaryTermSchema, newsletterSchema } from './schemas';
-import type { Article, Practice, Path, GlossaryTerm, NewsletterIssue } from './schemas';
+import { articleSchema, practiceSchema, pathSchema, glossaryTermSchema, newsletterSchema, evidenceSchema } from './schemas';
+import type { Article, Practice, Path, GlossaryTerm, NewsletterIssue, Evidence } from './schemas';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content');
 
@@ -105,4 +105,19 @@ export function getAllCategories(type: 'article' | 'practice') {
 export function getAllTags(type: 'article' | 'practice') {
   const items = type === 'article' ? getAllArticles() : getAllPractices();
   return [...new Set(items.flatMap(i => i.tags))];
+}
+
+// Evidence Library
+export function getAllEvidence() {
+  return loadCollection<Evidence>('dowody', evidenceSchema)
+    .filter(e => !e.draft)
+    .sort((a, b) => a.evidenceLevel.localeCompare(b.evidenceLevel));
+}
+
+export function getEvidenceBySlug(slug: string) {
+  return getAllEvidence().find(e => e.slug === slug) ?? null;
+}
+
+export function getEvidenceByLevel(level: string) {
+  return getAllEvidence().filter(e => e.evidenceLevel === level);
 }

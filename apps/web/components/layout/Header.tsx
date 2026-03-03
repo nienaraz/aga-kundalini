@@ -23,7 +23,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[var(--color-bg)]/95 backdrop-blur-md border-b border-warm-200/50">
+      <header className="sticky top-0 z-30 bg-[var(--color-bg)]/95 backdrop-blur-md border-b border-cobalt-500/20">
         <div className="content-container">
           <div className="flex items-center justify-between h-[4.5rem]">
             {/* Logo — editorial serif */}
@@ -31,11 +31,6 @@ export function Header() {
               href="/"
               className="flex items-center gap-3 shrink-0 group"
             >
-              {/* Decorative dot */}
-              <span
-                className="w-2.5 h-2.5 rounded-full bg-sage-400 group-hover:bg-sage-500 transition-colors"
-                aria-hidden="true"
-              />
               <span className="font-serif text-xl tracking-tight text-earth-900">
                 Aga
                 <span className="text-earth-400 font-normal mx-1.5">/</span>

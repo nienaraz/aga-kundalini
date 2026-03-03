@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import type { NavItem } from '@/lib/navigation';
@@ -44,12 +45,27 @@ export function DropdownNav({ item }: DropdownNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
 
   const isActive =
     pathname === item.href ||
     pathname.startsWith(item.href + '/') ||
     item.children?.some((c) => pathname === c.href || pathname.startsWith(c.href + '/'));
+
+  /* ---- Position the portal menu below the trigger ---- */
+  useEffect(() => {
+    if (!open || !triggerRef.current) return;
+    const update = () => {
+      const rect = triggerRef.current!.getBoundingClientRect();
+      setPos({ top: rect.bottom + 12, left: rect.left });
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => { window.removeEventListener('scroll', update); window.removeEventListener('resize', update); };
+  }, [open]);
 
   const handleEnter = useCallback(() => {
     if (closeTimeout.current) { clearTimeout(closeTimeout.current); closeTimeout.current = null; }
@@ -66,16 +82,62 @@ export function DropdownNav({ item }: DropdownNavProps) {
     return () => document.removeEventListener('keydown', handleKey);
   }, [open]);
 
+  /* Close when clicking outside both trigger and portal menu */
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      const inTrigger = triggerRef.current?.contains(target);
+      const inMenu = menuRef.current?.contains(target);
+      if (!inTrigger && !inMenu) setOpen(false);
     };
     if (open) document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
 
+  /* Close on route change */
+  useEffect(() => { setOpen(false); }, [pathname]);
+
+  const menuContent = (
+    <div
+      ref={menuRef}
+      role="menu"
+      style={{ position: 'fixed', top: pos.top, left: pos.left }}
+      className="min-w-[240px] z-[9999] rounded-3xl border border-warm-200/60 bg-white backdrop-blur-lg shadow-soft-lg py-2.5 animate-fade-in"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      <Link
+        href={item.href}
+        role="menuitem"
+        onClick={() => setOpen(false)}
+        className="block px-5 py-2.5 text-body-sm font-medium text-sage-700 hover:bg-sage-50 transition-colors rounded-xl mx-1"
+      >
+        Wszystko o: {item.label}
+      </Link>
+      <hr className="my-2 border-warm-100 mx-4" />
+      {item.children?.map((child) => {
+        const childActive = pathname === child.href || pathname.startsWith(child.href + '/');
+        return (
+          <Link
+            key={child.href}
+            href={child.href}
+            role="menuitem"
+            onClick={() => setOpen(false)}
+            aria-current={childActive ? 'page' : undefined}
+            className={`
+              block px-5 py-2.5 text-body-sm transition-colors rounded-xl mx-1
+              ${childActive ? 'text-sage-700 bg-sage-50/70 font-medium' : 'text-earth-700 hover:bg-warm-50 hover:text-sage-700'}
+            `}
+          >
+            {child.label}
+          </Link>
+        );
+      })}
+    </div>
+  );
+
   return (
-    <div ref={containerRef} className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div ref={triggerRef} className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -96,40 +158,7 @@ export function DropdownNav({ item }: DropdownNavProps) {
         </svg>
       </button>
 
-      {open && (
-        <div
-          role="menu"
-          className="absolute left-0 top-full mt-3 min-w-[240px] z-50 rounded-3xl border border-warm-200/60 bg-white/98 backdrop-blur-lg shadow-soft-lg py-2.5 animate-fade-in"
-        >
-          <Link
-            href={item.href}
-            role="menuitem"
-            onClick={() => setOpen(false)}
-            className="block px-5 py-2.5 text-body-sm font-medium text-sage-700 hover:bg-sage-50 transition-colors rounded-xl mx-1"
-          >
-            Wszystko o: {item.label}
-          </Link>
-          <hr className="my-2 border-warm-100 mx-4" />
-          {item.children?.map((child) => {
-            const childActive = pathname === child.href || pathname.startsWith(child.href + '/');
-            return (
-              <Link
-                key={child.href}
-                href={child.href}
-                role="menuitem"
-                onClick={() => setOpen(false)}
-                aria-current={childActive ? 'page' : undefined}
-                className={`
-                  block px-5 py-2.5 text-body-sm transition-colors rounded-xl mx-1
-                  ${childActive ? 'text-sage-700 bg-sage-50/70 font-medium' : 'text-earth-700 hover:bg-warm-50 hover:text-sage-700'}
-                `}
-              >
-                {child.label}
-              </Link>
-            );
-          })}
-        </div>
-      )}
+      {open && typeof document !== 'undefined' && createPortal(menuContent, document.body)}
     </div>
   );
 }

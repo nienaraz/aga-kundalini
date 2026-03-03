@@ -10,3 +10,6 @@ dist/
 public/search-index.json
 coverage/
 .DS_Store
+.env*.local
+*.db-shm
+*.db-wal

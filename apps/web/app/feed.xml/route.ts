@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllArticles, getAllNewsletterIssues } from '@joga/content';
+import { getDisabledRoutes } from '@joga/config/featureFlags';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -13,6 +14,15 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
+  const disabledRoutes = getDisabledRoutes();
+
+  function isAllowed(link: string): boolean {
+    const path = link.replace(BASE_URL, '');
+    return !disabledRoutes.some(
+      (disabled) => path === disabled || path.startsWith(disabled + '/')
+    );
+  }
+
   // Collect items from articles and newsletter issues
   const feedItems: Array<{
     title: string;
@@ -26,12 +36,14 @@ export async function GET() {
   try {
     const articles = getAllArticles();
     for (const article of articles) {
+      const link = `${BASE_URL}/library/${article.category}/${article.slug}`;
+      if (!isAllowed(link)) continue;
       feedItems.push({
         title: article.title,
-        link: `${BASE_URL}/library/${article.category}/${article.slug}`,
+        link,
         description: article.description,
         pubDate: new Date(article.publishedAt).toUTCString(),
-        guid: `${BASE_URL}/library/${article.category}/${article.slug}`,
+        guid: link,
       });
     }
   } catch {
@@ -42,12 +54,14 @@ export async function GET() {
   try {
     const issues = getAllNewsletterIssues();
     for (const issue of issues) {
+      const link = `${BASE_URL}/newsletter/${issue.slug}`;
+      if (!isAllowed(link)) continue;
       feedItems.push({
         title: issue.title,
-        link: `${BASE_URL}/newsletter/${issue.slug}`,
+        link,
         description: issue.description,
         pubDate: new Date(issue.publishedAt).toUTCString(),
-        guid: `${BASE_URL}/newsletter/${issue.slug}`,
+        guid: link,
       });
     }
   } catch {

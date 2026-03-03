@@ -106,10 +106,39 @@ export const newsletterSchema = z.object({
   draft: z.coerce.boolean().default(false),
 });
 
+// Dowód naukowy (Evidence Library)
+export const evidenceLevels = ['A', 'B', 'C', 'D', 'E'] as const;
+export type EvidenceLevel = (typeof evidenceLevels)[number];
+
+const sourceSchema = z.object({
+  author: z.string(),
+  year: z.coerce.number(),
+  title: z.string().optional(),
+  journal: z.string().optional(),
+  doi: z.string().optional(),
+});
+
+export const evidenceSchema = z.object({
+  title: z.string().min(1),
+  slug: z.string().min(1),
+  description: z.string().min(10).max(500),
+  evidenceLevel: z.enum(evidenceLevels),
+  sources: z.array(sourceSchema).min(1),
+  limitations: z.string().min(1),
+  controversyFlag: z.coerce.boolean().default(false),
+  controversyNote: z.string().optional(),
+  relatedContent: z.array(z.string()).optional(),
+  tags: z.array(z.string()).min(1),
+  publishedAt: z.string(),
+  draft: z.coerce.boolean().default(false),
+});
+
 // Typy wyeksportowane
 export type Article = z.infer<typeof articleSchema>;
 export type Practice = z.output<typeof practiceSchema>;
 export type Path = z.infer<typeof pathSchema>;
 export type GlossaryTerm = z.infer<typeof glossaryTermSchema>;
 export type NewsletterIssue = z.infer<typeof newsletterSchema>;
-export type ContentType = 'article' | 'practice' | 'path' | 'glossary' | 'newsletter';
+export type Evidence = z.infer<typeof evidenceSchema>;
+export type EvidenceSource = z.infer<typeof sourceSchema>;
+export type ContentType = 'article' | 'practice' | 'path' | 'glossary' | 'newsletter' | 'evidence';
